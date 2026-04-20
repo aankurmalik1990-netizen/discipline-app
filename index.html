@@ -1,0 +1,2008 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+  <meta name="theme-color" content="#0f172a" />
+  <title>Discipline — GSBV Radhey Shyam Park</title>
+  <link rel="manifest" href="/manifest.json" />
+  <link rel="apple-touch-icon" href="/icon-192.png" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Discipline" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: "Segoe UI", Tahoma, sans-serif; background: #0f172a; color: #e2e8f0; max-width: 480px; margin: 0 auto; min-height: 100vh; padding-bottom: 72px; }
+    button { font-family: inherit; }
+    input, select { font-family: inherit; outline: none; }
+    .header { background: linear-gradient(135deg, #1e3a5f, #0f172a); padding: 14px 18px; border-bottom: 1px solid #334155; display: flex; align-items: center; gap: 12px; position: sticky; top: 0; z-index: 10; }
+    .header-icon { font-size: 30px; }
+    .header-title { font-size: 20px; font-weight: 800; color: #60a5fa; letter-spacing: 1px; }
+    .header-sub { font-size: 10px; color: #64748b; }
+    .body { padding: 14px; }
+    .card { background: #1e293b; border-radius: 12px; padding: 14px; margin-bottom: 12px; }
+    .step-label { font-size: 11px; color: #60a5fa; font-weight: 700; letter-spacing: 1px; margin-bottom: 10px; }
+    .class-btn { padding: 8px 14px; border-radius: 8px; border: 2px solid #334155; background: transparent; color: #94a3b8; font-weight: 600; font-size: 13px; cursor: pointer; transition: all 0.15s; }
+    .class-btn.active { border-color: #60a5fa; background: #1d4ed8; color: #fff; }
+    .student-btn { display: flex; justify-content: space-between; align-items: center; width: 100%; margin-bottom: 6px; padding: 10px 12px; border-radius: 8px; border: 2px solid #334155; background: transparent; color: #cbd5e1; font-weight: 600; font-size: 14px; cursor: pointer; text-align: left; transition: all 0.15s; }
+    .student-btn.active { border-color: #60a5fa; background: #1d4ed8; color: #fff; }
+    .badge { background: #dc2626; color: #fff; border-radius: 20px; padding: 2px 8px; font-size: 11px; font-weight: 700; }
+    .violation-btn { display: block; width: 100%; margin-bottom: 8px; padding: 11px 14px; border-radius: 8px; border: 2px solid #334155; background: transparent; color: #cbd5e1; font-weight: 600; font-size: 13px; cursor: pointer; text-align: left; transition: all 0.15s; }
+    .submit-btn { width: 100%; padding: 14px; border-radius: 10px; border: none; background: linear-gradient(135deg, #25D366, #128C7E); color: #fff; font-weight: 800; font-size: 16px; cursor: pointer; letter-spacing: 1px; }
+    .inp { width: 100%; background: #0f172a; color: #e2e8f0; border: 1px solid #334155; border-radius: 8px; padding: 9px 12px; font-size: 14px; margin-bottom: 6px; }
+    select.inp { margin-bottom: 0; }
+    .nav { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 480px; background: #0f172a; border-top: 1px solid #334155; display: flex; }
+    .nav-btn { flex: 1; padding: 11px 0; background: transparent; border: none; color: #475569; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 2px; font-family: inherit; }
+    .nav-btn.active { color: #60a5fa; }
+    .nav-btn span.emoji { font-size: 20px; }
+    .nav-btn span.lbl { font-size: 10px; font-weight: 400; }
+    .nav-btn.active span.lbl { font-weight: 700; }
+    .tab { display: none; }
+    .tab.active { display: block; }
+    .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
+    .stat-card { background: #1e293b; border-radius: 10px; padding: 14px 12px; }
+    .stat-val { font-size: 28px; font-weight: 800; }
+    .stat-lbl { font-size: 11px; color: #64748b; }
+    .record-card { background: #1e293b; border-radius: 10px; padding: 12px 14px; margin-bottom: 8px; border-left: 3px solid #60a5fa; }
+    .success-screen { text-align: center; padding-top: 60px; }
+    .flex-row { display: flex; flex-wrap: wrap; gap: 8px; }
+    .flex { display: flex; gap: 8px; }
+    .section-title { font-size: 11px; color: #94a3b8; font-weight: 700; letter-spacing: 1px; margin-bottom: 12px; }
+    .student-row { display: flex; justify-content: space-between; align-items: center; padding: 7px 0; border-bottom: 1px solid #334155; }
+    .del-btn { background: transparent; color: #f87171; border: 1px solid #7f1d1d; border-radius: 6px; padding: 3px 8px; font-size: 11px; cursor: pointer; }
+    .add-student-btn { margin-top: 10px; width: 100%; padding: 8px; background: transparent; color: #60a5fa; border: 1px dashed #334155; border-radius: 8px; cursor: pointer; font-size: 13px; }
+    .warning { color: #f59e0b; font-size: 11px; margin-top: 4px; }
+    .empty { color: #475569; font-size: 13px; }
+    .add-class-card { background: #1e293b; border-radius: 12px; padding: 14px; margin-bottom: 12px; }
+    .login-screen { position:fixed; top:0; left:0; width:100%; height:100%; background:#0f172a; z-index:100; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:24px; }
+    .login-card { background:#1e293b; border-radius:16px; padding:28px 20px; width:100%; max-width:380px; }
+    .login-title { font-size:22px; font-weight:800; color:#60a5fa; text-align:center; margin-bottom:4px; }
+    .login-sub { font-size:12px; color:#64748b; text-align:center; margin-bottom:24px; }
+    .login-btn { width:100%; padding:14px; border-radius:10px; border:none; background:linear-gradient(135deg,#1d4ed8,#3b82f6); color:#fff; font-weight:800; font-size:16px; cursor:pointer; margin-top:8px; }
+    .role-badge { display:inline-block; padding:3px 10px; border-radius:20px; font-size:11px; font-weight:700; }
+    .role-teacher { background:#1d4ed8; color:#fff; }
+    .role-admin { background:#dc2626; color:#fff; }
+    .logout-btn { background:transparent; border:1px solid #334155; color:#94a3b8; padding:6px 12px; border-radius:8px; font-size:12px; cursor:pointer; }
+    .admin-stat-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:14px; }
+    .admin-stat { background:#1e293b; border-radius:10px; padding:14px; text-align:center; }
+    .admin-stat-val { font-size:32px; font-weight:800; }
+    .admin-stat-lbl { font-size:11px; color:#64748b; margin-top:2px; }
+    .vbar { display:flex; align-items:center; gap:8px; margin-bottom:8px; }
+    .vbar-label { font-size:12px; color:#94a3b8; width:140px; flex-shrink:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+    .vbar-track { flex:1; background:#1e293b; border-radius:4px; height:8px; }
+    .vbar-fill { height:8px; border-radius:4px; background:#60a5fa; }
+    .vbar-count { font-size:12px; color:#60a5fa; font-weight:700; width:24px; text-align:right; }
+    .ai-btn { width:100%; padding:14px; border-radius:10px; border:none; background:linear-gradient(135deg,#7c3aed,#4f46e5); color:#fff; font-weight:800; font-size:16px; cursor:pointer; letter-spacing:1px; margin-bottom:8px; }
+    .ai-btn:disabled { opacity:0.6; cursor:not-allowed; }
+    .ai-report-box { background:#0f172a; border:1px solid #4f46e5; border-radius:10px; padding:12px; margin-bottom:10px; font-size:13px; line-height:1.7; color:#e2e8f0; display:none; white-space:pre-wrap; }
+    .ai-loading { text-align:center; color:#7c3aed; font-size:13px; padding:10px; display:none; }
+    /* GATE PASS */
+    .gp-btn { display:block; width:100%; margin-bottom:8px; padding:11px 14px; border-radius:8px; border:2px solid #334155; background:transparent; color:#cbd5e1; font-weight:600; font-size:13px; cursor:pointer; text-align:left; transition:all 0.15s; }
+    .gp-btn.active { border-color:#0ea5e9; background:#0369a133; color:#fff; }
+    .submit-btn-gp { width:100%; padding:14px; border-radius:10px; border:none; background:linear-gradient(135deg,#0369a1,#0ea5e9); color:#fff; font-weight:800; font-size:16px; cursor:pointer; letter-spacing:1px; margin-top:8px; }
+  </style>
+</head>
+<body>
+<!-- LOGIN -->
+<div id="login-screen" class="login-screen">
+  <div class="login-card">
+    <div style="font-size:48px;text-align:center;margin-bottom:12px">&#127979;</div>
+    <div class="login-title">DISCIPLINE</div>
+    <div class="login-sub">GSBV RADHEY SHYAM PARK (1003152)</div>
+    <div style="margin-bottom:12px">
+      <div style="font-size:11px;color:#64748b;margin-bottom:6px;font-weight:700">USERNAME</div>
+      <input class="inp" id="login-user" placeholder="Username daalo" />
+    </div>
+    <div style="margin-bottom:12px">
+      <div style="font-size:11px;color:#64748b;margin-bottom:6px;font-weight:700">PASSWORD</div>
+      <input class="inp" id="login-pass" type="password" placeholder="Password daalo" />
+    </div>
+    <div id="login-error" style="color:#f87171;font-size:12px;text-align:center;display:none;margin-bottom:8px">&#10060; Galat username ya password</div>
+    <button class="login-btn" onclick="doLogin()">&#128272; Login</button>
+  </div>
+</div>
+<!-- HEADER -->
+<div class="header">
+  <span class="header-icon">&#127979;</span>
+  <div style="flex:1">
+    <div class="header-title">DISCIPLINE</div>
+    <div class="header-sub">GSBV RADHEY SHYAM PARK (1003152)</div>
+  </div>
+  <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px">
+    <span id="header-role-badge"></span>
+    <button class="logout-btn" onclick="doLogout()">Logout</button>
+  </div>
+</div>
+<div class="body">
+  <div id="tab-home" class="tab active">
+    <div id="success-screen" class="success-screen" style="display:none">
+      <div style="font-size:64px">&#9989;</div>
+      <div style="font-size:20px;font-weight:700;color:#4ade80;margin-top:14px">&#2352;&#2367;&#2346;&#2379;&#2352;&#2381;&#2335; &#2342;&#2352;&#2381;&#2332; &#2361;&#2379; &#2327;&#2312;&#2313;</div>
+      <div style="color:#94a3b8;margin-top:6px">WhatsApp &#2360;&#2306;&#2342;&#2375;&#2358; &#2309;&#2349;&#2367;&#2349;&#2366;&#2357;&#2325; &#2325;&#2379; &#2349;&#2375;&#2332;&#2366; &#2327;&#2351;&#2366;</div>
+    </div>
+    <div id="report-form">
+      <div class="card"><div class="step-label">STEP 1 &#8212; &#2325;&#2325;&#2381;&#2359;&#2366; &#2330;&#2369;&#2344;&#2375;&#2306;</div><div id="class-buttons" class="flex-row"></div></div>
+      <div class="card" id="step2" style="display:none"><div class="step-label">STEP 2 &#8212; &#2331;&#2366;&#2340;&#2381;&#2352; &#2330;&#2369;&#2344;&#2375;&#2306; <span id="student-count" style="color:#64748b;font-weight:400"></span></div><div id="student-buttons"></div></div>
+      <div class="card" id="step3" style="display:none"><div class="step-label">STEP 3 &#8212; &#2313;&#2354;&#2381;&#2354;&#2306;&#2328;&#2344; &#2325;&#2366; &#2346;&#2381;&#2352;&#2325;&#2366;&#2352;</div><div id="violation-buttons"></div></div>
+      <div class="card" id="step4" style="display:none">
+        <div id="summary" style="font-size:13px;color:#94a3b8;margin-bottom:12px;line-height:1.8"></div>
+        <button class="ai-btn" id="ai-btn" onclick="generateAIReport()">&#129302; AI &#2352;&#2367;&#2346;&#2379;&#2352;&#2381;&#2335; &#2348;&#2344;&#2366;&#2319;&#2306;</button>
+        <div class="ai-loading" id="ai-loading">&#9203; AI &#2352;&#2367;&#2346;&#2379;&#2352;&#2381;&#2335; &#2340;&#2376;&#2351;&#2366;&#2352; &#2361;&#2379; &#2352;&#2361;&#2368; &#2361;&#2376;...</div>
+        <div class="ai-report-box" id="ai-report-box"></div>
+        <button class="submit-btn" id="wa-btn-ai" onclick="handleSubmitAI()" style="display:none;background:linear-gradient(135deg,#7c3aed,#4f46e5)">&#129302; WhatsApp (AI &#2352;&#2367;&#2346;&#2379;&#2352;&#2381;&#2335;)</button>
+        <button class="submit-btn" id="wa-btn-default" onclick="handleSubmit()" style="margin-top:8px">&#128241; WhatsApp (&#2360;&#2366;&#2350;&#2366;&#2344;&#2381;&#2351; &#2360;&#2306;&#2342;&#2375;&#2358;)</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- STUDENT PROFILE POPUP -->
+  <div id="student-popup" class="popup-overlay" style="display:none">
+    <div class="popup-card">
+      <button class="popup-close" onclick="closeStudentPopup()">✕</button>
+      <div id="popup-content"></div>
+    </div>
+  </div>
+
+  <!-- MERIT TAB -->
+  <div id="tab-merit" class="tab">
+    <div id="merit-success" class="success-screen" style="display:none">
+      <div style="font-size:64px">🌟</div>
+      <div style="font-size:20px;font-weight:700;color:#22c55e;margin-top:14px">मेरिट दर्ज हो गई!</div>
+      <div style="color:#94a3b8;margin-top:6px">WhatsApp संदेश अभिभावक को भेजा गया</div>
+    </div>
+    <div id="merit-form">
+      <div class="card">
+        <div class="step-label">STEP 1 — कक्षा चुनें</div>
+        <div id="merit-class-buttons" class="flex-row"></div>
+      </div>
+      <div class="card" id="merit-step2" style="display:none">
+        <div class="step-label">STEP 2 — छात्र चुनें</div>
+        <div id="merit-student-buttons"></div>
+      </div>
+      <div class="card" id="merit-step3" style="display:none">
+        <div class="step-label">STEP 3 — मेरिट कोड चुनें</div>
+        <div id="merit-buttons"></div>
+      </div>
+      <div class="card" id="merit-step4" style="display:none">
+        <div id="merit-summary" style="font-size:13px;color:#94a3b8;margin-bottom:12px;line-height:1.8"></div>
+        <button class="submit-btn-merit" onclick="handleMeritSubmit()">🌟 WhatsApp मेरिट भेजें</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ACHIEVEMENT TAB -->
+  <div id="tab-achievement" class="tab">
+    <div id="achievement-success" class="success-screen" style="display:none">
+      <div style="font-size:64px">🏆</div>
+      <div style="font-size:20px;font-weight:700;color:#f59e0b;margin-top:14px">अचीवमेंट दर्ज हो गई!</div>
+      <div style="color:#94a3b8;margin-top:6px">WhatsApp संदेश अभिभावक को भेजा गया</div>
+    </div>
+    <div id="achievement-form">
+      <div class="card">
+        <div class="step-label">STEP 1 — कक्षा चुनें</div>
+        <div id="ach-class-buttons" class="flex-row"></div>
+      </div>
+      <div class="card" id="ach-step2" style="display:none">
+        <div class="step-label">STEP 2 — छात्र चुनें</div>
+        <div id="ach-student-buttons"></div>
+      </div>
+      <div class="card" id="ach-step3" style="display:none">
+        <div class="step-label">STEP 3 — अचीवमेंट चुनें</div>
+        <div id="ach-buttons"></div>
+      </div>
+      <div class="card" id="ach-step4" style="display:none">
+        <div id="ach-summary" style="font-size:13px;color:#94a3b8;margin-bottom:12px;line-height:1.8"></div>
+        <button class="submit-btn-achievement" onclick="handleAchievementSubmit()">🏆 WhatsApp अचीवमेंट भेजें</button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- GATE PASS TAB -->
+  <div id="tab-gatepass" class="tab">
+    <div id="gp-success" class="success-screen" style="display:none">
+      <div style="font-size:64px">🚪</div>
+      <div style="font-size:20px;font-weight:700;color:#0ea5e9;margin-top:14px">गेट पास जारी हो गया!</div>
+      <div style="color:#94a3b8;margin-top:6px">Parent और Guard को WhatsApp भेजा गया</div>
+    </div>
+    <div id="gp-form">
+      <div class="card">
+        <div class="step-label">STEP 1 — कक्षा चुनें</div>
+        <div id="gp-class-buttons" class="flex-row"></div>
+      </div>
+      <div class="card" id="gp-step2" style="display:none">
+        <div class="step-label">STEP 2 — छात्र चुनें</div>
+        <div id="gp-student-buttons"></div>
+      </div>
+      <div class="card" id="gp-step3" style="display:none">
+        <div class="step-label">STEP 3 — कारण चुनें</div>
+        <div id="gp-reason-buttons"></div>
+      </div>
+      <div class="card" id="gp-step4" style="display:none">
+        <div class="step-label">STEP 4 — गार्ड चुनें (ड्यूटी पर)</div>
+        <div id="gp-guard-buttons"></div>
+        <div id="gp-no-guard" style="display:none;color:#f87171;font-size:13px;padding:8px">⚠️ कोई गार्ड नहीं है। Admin से गार्ड जोड़ें।</div>
+      </div>
+      <div class="card" id="gp-step5" style="display:none">
+        <div id="gp-summary" style="font-size:13px;color:#94a3b8;margin-bottom:12px;line-height:2"></div>
+        <button class="submit-btn-gp" onclick="handleGPSubmit()">🚪 Gate Pass जारी करें</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="tab-records" class="tab">
+    <div class="section-title">सेमेस्टर रिकॉर्ड</div>
+    <div class="stat-grid">
+      <div class="stat-card"><div class="stat-val" id="stat-total" style="color:#60a5fa">0</div><div class="stat-lbl">कुल रिपोर्ट</div></div>
+      <div class="stat-card"><div class="stat-val" id="stat-students" style="color:#f87171">0</div><div class="stat-lbl">प्रभावित छात्र</div></div>
+      <div class="stat-card"><div class="stat-val" id="stat-merits" style="color:#22c55e">0</div><div class="stat-lbl">मेरिट</div></div>
+      <div class="stat-card"><div class="stat-val" id="stat-achievements" style="color:#f59e0b">0</div><div class="stat-lbl">अचीवमेंट</div></div>
+    </div>
+    <div class="flex" style="margin-bottom:8px">
+      <select class="inp" id="filter-class" onchange="applyFilter()" style="flex:1"><option value="all">सभी कक्षाएं</option></select>
+      <select class="inp" id="filter-student" onchange="applyFilter()" style="flex:1;display:none"><option value="all">सभी छात्र</option></select>
+    </div>
+    <div class="flex" style="margin-bottom:12px">
+      <select class="inp" id="filter-type" onchange="applyFilter()" style="flex:1">
+        <option value="all">सभी प्रकार</option>
+        <option value="violation">🔴 उल्लंघन</option>
+        <option value="merit">🟢 मेरिट</option>
+        <option value="achievement">🏆 अचीवमेंट</option>
+      </select>
+    </div>
+    <div id="records-list"></div>
+  </div>
+  <div id="tab-admin" class="tab">
+    <div class="section-title">ADMIN DASHBOARD</div>
+    <div class="admin-stat-grid">
+      <div class="admin-stat"><div class="admin-stat-val" id="adm-total" style="color:#60a5fa">0</div><div class="admin-stat-lbl">&#2325;&#2369;&#2354; &#2352;&#2367;&#2346;&#2379;&#2352;&#2381;&#2335;</div></div>
+      <div class="admin-stat"><div class="admin-stat-val" id="adm-students" style="color:#f87171">0</div><div class="admin-stat-lbl">&#2346;&#2381;&#2352;&#2349;&#2366;&#2357;&#2367;&#2340; &#2331;&#2366;&#2340;&#2381;&#2352;</div></div>
+      <div class="admin-stat"><div class="admin-stat-val" id="adm-today" style="color:#4ade80">0</div><div class="admin-stat-lbl">&#2310;&#2332; &#2325;&#2368; &#2352;&#2367;&#2346;&#2379;&#2352;&#2381;&#2335;</div></div>
+      <div class="admin-stat"><div class="admin-stat-val" id="adm-teachers" style="color:#f59e0b">0</div><div class="admin-stat-lbl">&#2360;&#2325;&#2381;&#2340;&#2367;&#2351; &#2358;&#2367;&#2325;&#2381;&#2359;&#2325;</div></div>
+    </div>
+    <div class="card"><div class="step-label">&#2313;&#2354;&#2381;&#2354;&#2306;&#2328;&#2344; &#2357;&#2367;&#2358;&#2381;&#2354;&#2375;&#2359;&#2339;</div><div id="violation-chart"></div></div>
+    <div class="card"><div class="step-label">&#2358;&#2367;&#2325;&#2381;&#2359;&#2325; &#2327;&#2340;&#2367;&#2357;&#2367;&#2343;&#2367;</div><div id="teacher-activity"></div></div>
+    <div class="card"><div class="step-label">&#2360;&#2348;&#2360;&#2375; &#2309;&#2343;&#2367;&#2325; &#2313;&#2354;&#2381;&#2354;&#2306;&#2328;&#2344; &#2357;&#2366;&#2354;&#2375; &#2331;&#2366;&#2340;&#2381;&#2352;</div><div id="top-students"></div></div>
+    <div class="card">
+      <div class="step-label">💂 गार्ड प्रबंधन</div>
+      <div id="guards-list" style="margin-bottom:12px"></div>
+      <div style="border-top:1px solid #334155;padding-top:12px">
+        <div class="step-label">+ नया गार्ड जोड़ें</div>
+        <input class="inp" id="guard-name" placeholder="गार्ड का नाम" />
+        <input class="inp" id="guard-phone" placeholder="WhatsApp नं. जैसे 919812345678" />
+        <button onclick="addGuard()" style="width:100%;padding:10px;background:#0369a1;color:#fff;border:none;border-radius:8px;font-weight:700;cursor:pointer;margin-top:4px">+ गार्ड जोड़ें</button>
+      </div>
+    </div>
+    <div class="card">
+      <div class="step-label">&#2313;&#2346;&#2351;&#2379;&#2327;&#2325;&#2352;&#2381;&#2340;&#2366; &#2346;&#2381;&#2352;&#2348;&#2306;&#2343;&#2344; (User Management)</div>
+      <div id="users-list"></div>
+      <div style="margin-top:14px;border-top:1px solid #334155;padding-top:14px">
+        <div class="step-label">+ &#2344;&#2319;&#2366; &#2313;&#2346;&#2351;&#2379;&#2327;&#2325;&#2352;&#2381;&#2340;&#2366; &#2348;&#2344;&#2366;&#2319;&#2306;</div>
+        <input class="inp" id="new-uname" placeholder="Username" />
+        <input class="inp" id="new-upass" placeholder="Password" />
+        <input class="inp" id="new-uname-display" placeholder="Pura Naam" />
+        <select class="inp" id="new-urole" style="margin-bottom:8px">
+          <option value="teacher">Teacher</option>
+          <option value="admin">Admin</option>
+        </select>
+        <button onclick="addUser()" style="width:100%;padding:10px;background:#1d4ed8;color:#fff;border:none;border-radius:8px;font-weight:700;cursor:pointer">+ User Banao</button>
+      </div>
+    </div>
+  </div>
+  <div id="tab-settings" class="tab">
+    <div class="section-title">&#2325;&#2325;&#2381;&#2359;&#2366; &#2319;&#2357;&#2306; &#2331;&#2366;&#2340;&#2381;&#2352; &#2346;&#2381;&#2352;&#2348;&#2306;&#2343;&#2344;</div>
+    <div class="add-class-card">
+      <div class="step-label">+ &#2344;&#2312; &#2325;&#2325;&#2381;&#2359;&#2366; &#2332;&#2379;&#2337;&#2364;&#2375;&#2306;</div>
+      <div class="flex">
+        <input class="inp" id="new-class-input" placeholder="&#2332;&#2376;&#2360;&#2375; Class 9E" style="flex:1;margin-bottom:0" />
+        <button onclick="addClass()" style="padding:9px 16px;background:#1d4ed8;color:#fff;border:none;border-radius:8px;font-weight:700;cursor:pointer">&#2332;&#2379;&#2337;&#2364;&#2375;&#2306;</button>
+      </div>
+    </div>
+    <div id="classes-list"></div>
+  </div>
+</div>
+<nav class="nav">
+  <button class="nav-btn active" id="nav-home" onclick="switchTab('home')"><span class="emoji">🏠</span><span class="lbl">रिपोर्ट</span></button>
+  <button class="nav-btn" id="nav-merit" onclick="switchTab('merit')"><span class="emoji">🌟</span><span class="lbl">मेरिट</span></button>
+  <button class="nav-btn" id="nav-achievement" onclick="switchTab('achievement')"><span class="emoji">🏆</span><span class="lbl">अचीवमेंट</span></button>
+  <button class="nav-btn" id="nav-gatepass" onclick="switchTab('gatepass')"><span class="emoji">🚪</span><span class="lbl">गेट पास</span></button>
+  <button class="nav-btn" id="nav-records" onclick="switchTab('records')"><span class="emoji">📊</span><span class="lbl">रिकॉर्ड</span></button>
+  <button class="nav-btn" id="nav-admin" onclick="switchTab('admin')" style="display:none"><span class="emoji">👑</span><span class="lbl">Admin</span></button>
+  <button class="nav-btn" id="nav-settings" onclick="switchTab('settings')"><span class="emoji">⚙️</span><span class="lbl">सेटिंग्स</span></button>
+</nav>
+<script>
+const VIOLATIONS = [
+  { id:1, label:"लंबे समय से अनुपस्थित", emoji:"📅", color:"#e74c3c", msg: n => `📋 *विषय: विद्यालय से निरंतर अनुपस्थिति के संबंध में औपचारिक सूचना।*\n\nसादर अभिवादन, GSBV RADHEY SHYAM PARK (1003152) के रिकॉर्ड के अनुसार आपका पुत्र *${n}* पिछले कई दिनों से निरंतर अनुपस्थित है। शिक्षा के अधिकार और बेहतर प्रदर्शन के लिए नियमित उपस्थिति अनिवार्य है। कृपया छात्र की अनुपस्थिति का उचित कारण स्पष्ट करने हेतु कल विद्यालय समय में कक्षा अध्यापक से संपर्क करें।` },
+  { id:2, label:"हिंसा / अनुशासनहीनता", emoji:"⚡", color:"#c0392b", msg: n => `🚨 *विषय: गंभीर अनुशासनहीनता एवं हिंसक व्यवहार के संबंध में सूचना।*\n\nअत्यंत आवश्यक सूचना: आज विद्यालय परिसर में आपका पुत्र *${n}* अन्य छात्र के साथ गंभीर लड़ाई-झगड़े (हिंसा) में संलिप्त पाया गया है। विद्यालय की गरिमा और सुरक्षा नियमों के विरुद्ध यह व्यवहार असहनीय है। इस घटना पर आधिकारिक चर्चा हेतु आपको कल सुबह प्रधानाचार्य कार्यालय में अनिवार्य रूप से उपस्थित होना है।` },
+  { id:3, label:"बिना अनुमति विद्यालय से प्रस्थान", emoji:"🏃", color:"#e67e22", msg: n => `⚠️ *विषय: सुरक्षा उल्लंघन एवं बिना अनुमति विद्यालय परिसर छोड़ने की सूचना।*\n\nमहत्वपूर्ण सूचना: आज मध्यंतर (Recess) या स्कूल समय के दौरान आपका पुत्र *${n}* बिना किसी गेट-पास या अनुमति के विद्यालय परिसर से बाहर पाया गया। छात्र की सुरक्षा हेतु यह एक गंभीर जोखिम है। भविष्य में इस प्रकार की पुनरावृत्ति होने पर छात्र का नाम काटने (Discharge) जैसी सख्त अनुशासनात्मक कार्यवाही की जा सकती है।` },
+  { id:4, label:"कक्षा से अनुपस्थित (पीरियड में)", emoji:"🚪", color:"#f39c12", msg: n => `📋 *विषय: निर्धारित कालांश (Period) के दौरान कक्षा से अनुपस्थिति की सूचना।*\n\nसूचित किया जाता है कि आज औचक निरीक्षण के दौरान आपका पुत्र *${n}* निर्धारित पीरियड के समय अपनी कक्षा में उपस्थित नहीं था। अनुशासन का उल्लंघन करते हुए वह विद्यालय परिसर में अन्यत्र पाया गया। कृपया अपने स्तर पर छात्र को समय के सदुपयोग और विद्यालय नियमों के प्रति जागरूक करें।` },
+  { id:5, label:"गृहकार्य अधूरा", emoji:"📚", color:"#8e44ad", msg: n => `📝 *विषय: शैक्षणिक प्रगति एवं अधूरा गृहकार्य (Homework) संबंधी सूचना।*\n\nनमस्ते, यह सूचित किया जाता है कि आपके पुत्र *${n}* द्वारा आज का निर्धारित गृहकार्य पूरा नहीं किया गया है। शैक्षणिक निरंतरता बनाए रखने के लिए घर पर नियमित अभ्यास आवश्यक है। आपसे अनुरोध है कि छात्र के गृहकार्य और नोटबुक की प्रतिदिन जांच करें ताकि उनकी प्रगति में कोई बाधा न आए।` },
+  { id:6, label:"अन्य (Other)", emoji:"📌", color:"#2c3e50", msg: n => `📋 *विषय: विद्यालय अनुशासन रिकॉर्ड (Discipline Record) संबंधी सूचना।*\n\nसादर सूचित किया जाता है कि GSBV RADHEY SHYAM PARK (1003152) के अनुशासन पोर्टल पर आपके पुत्र *${n}* के विरुद्ध एक प्रविष्टि (Entry) दर्ज की गई है। इस संबंध में अधिक जानकारी और भविष्य की रूपरेखा तय करने हेतु आपसे विद्यालय में संपर्क की अपेक्षा की जाती है।` },
+];
+
+const DEFAULT_CLASSES = [
+  { id:"class7a", name:"Class 7A", students:[
+    {id:"7a_1",name:"SHIVAM",phone:"918882691536"},
+    {id:"7a_2",name:"RAJ VAISH",phone:"919643422404"},
+    {id:"7a_3",name:"AYUSH",phone:"917838924067"},
+    {id:"7a_4",name:"AYANSH VAID",phone:"918376954100"},
+    {id:"7a_5",name:"ADITYA SHAH",phone:""},
+    {id:"7a_6",name:"ANKIT SHAH",phone:"917289057284"},
+    {id:"7a_7",name:"ANKIT KUMAR",phone:"918826914486"},
+    {id:"7a_8",name:"ADARSH",phone:"918587891074"},
+    {id:"7a_9",name:"SHIVAM KUMBHKAR",phone:"919625561976"},
+    {id:"7a_10",name:"KAUSAL",phone:"919911618192"},
+    {id:"7a_11",name:"GAURAV",phone:"917217617468"},
+    {id:"7a_12",name:"SHIV PATHAK",phone:"917840868387"},
+    {id:"7a_13",name:"AYUSH RAJAK",phone:"917999609639"},
+    {id:"7a_14",name:"KARTIK KUMAR",phone:"919643841125"},
+    {id:"7a_15",name:"ROHIT GAUTAM",phone:"919627041022"},
+    {id:"7a_16",name:"DILKHUSH KUMAR",phone:"919310397299"},
+    {id:"7a_17",name:"NAMAN",phone:"919643359410"},
+    {id:"7a_18",name:"NAITIK SONI",phone:"919511081718"},
+    {id:"7a_19",name:"JAMES TOPNO",phone:"919999609900"},
+    {id:"7a_20",name:"NIYESH THAKUR",phone:"918527537054"},
+    {id:"7a_21",name:"SHIVAM KUMAR",phone:"918178680201"},
+    {id:"7a_22",name:"RAJ KUMAR",phone:"919289477176"},
+    {id:"7a_23",name:"KRISHAN DEV",phone:"919717084506"},
+    {id:"7a_24",name:"DRISHYA KUMAR",phone:"919711068965"},
+    {id:"7a_25",name:"AYUSH",phone:"918858002029"},
+  ]},
+  { id:"class7b", name:"Class 7B", students:[
+    {id:"7b_1",name:"SHUBHAM ARORA",phone:""},
+    {id:"7b_2",name:"MOHIT",phone:"919211588230"},
+    {id:"7b_3",name:"AMAN",phone:"919654845906"},
+    {id:"7b_4",name:"DEV",phone:"918882402557"},
+    {id:"7b_5",name:"DIPANSHU",phone:"919977323667"},
+    {id:"7b_6",name:"SHIVAM",phone:""},
+    {id:"7b_7",name:"ROHIT KUMAR SHARMA",phone:"918527256310"},
+    {id:"7b_8",name:"SUSHANT KUMAR",phone:""},
+    {id:"7b_9",name:"KISHAN",phone:"919999608972"},
+    {id:"7b_10",name:"MAYANK AHIRWAR",phone:"919131321515"},
+    {id:"7b_11",name:"ARYAN",phone:"918287219405"},
+    {id:"7b_12",name:"MANESUR",phone:"917065157973"},
+    {id:"7b_13",name:"RAJU KUMAR",phone:""},
+    {id:"7b_14",name:"SHIV KUMAR",phone:"919627173192"},
+    {id:"7b_15",name:"AADESH PANDEY",phone:"918377038711"},
+    {id:"7b_16",name:"ABHAY KUMAR",phone:"919015523701"},
+    {id:"7b_17",name:"CHIRAG",phone:"919968895925"},
+    {id:"7b_18",name:"SATYAM SHIVAM KUMAR",phone:"918882851371"},
+    {id:"7b_19",name:"VARUN KASHYAP",phone:"918750295443"},
+    {id:"7b_20",name:"NITESH MAURYA",phone:"919310721986"},
+    {id:"7b_21",name:"ABHAY",phone:"918588902046"},
+    {id:"7b_22",name:"RAUSHAN KUMAR",phone:"918700989431"},
+    {id:"7b_23",name:"GAUTAM KUMAR",phone:"919773814531"},
+    {id:"7b_24",name:"SATYAM CHAUHAN",phone:"918375951497"},
+    {id:"7b_25",name:"ASHISH KUMAR",phone:"918010002271"},
+    {id:"7b_26",name:"PREENS",phone:"919511081719"},
+    {id:"7b_27",name:"ROSHAN",phone:"917303376036"},
+    {id:"7b_28",name:"PAWAN",phone:"918368186727"},
+    {id:"7b_29",name:"ASHISH KUMAR SAHA",phone:"919650378523"},
+    {id:"7b_30",name:"ANSHU",phone:"919720981394"},
+    {id:"7b_31",name:"ANSHU",phone:"919368131919"},
+    {id:"7b_32",name:"RAJVEER",phone:"919289430924"},
+    {id:"7b_33",name:"BIRAJ KUMAR",phone:"919310891040"},
+    {id:"7b_34",name:"SUSHANT KUMAR",phone:"919267994933"},
+    {id:"7b_35",name:"HIMANSHU",phone:"918810596534"},
+    {id:"7b_36",name:"NEERAJ",phone:"917701890472"},
+    {id:"7b_37",name:"SHANI KUMAR",phone:"919654126904"},
+    {id:"7b_38",name:"KARN KUMAR",phone:"917393837446"},
+    {id:"7b_39",name:"GOLU",phone:"918127143165"},
+    {id:"7b_40",name:"MONU",phone:"918882811707"},
+    {id:"7b_41",name:"ASHISH KUMAR",phone:"917362805231"},
+    {id:"7b_42",name:"AAHAN",phone:"919654053104"},
+    {id:"7b_43",name:"SANTOSH KUMAR",phone:"918651882811"},
+    {id:"7b_44",name:"VANSH KUMAR",phone:"919868504639"},
+    {id:"7b_45",name:"SIDHARTH",phone:"919990088698"},
+    {id:"7b_46",name:"BADAL KUMAR",phone:"918294756981"},
+    {id:"7b_47",name:"AAKASH",phone:"919565784360"},
+    {id:"7b_48",name:"KISHAN KUMAR",phone:"919319819959"},
+    {id:"7b_49",name:"AMIT RAJAK",phone:"918595742165"},
+    {id:"7b_50",name:"NIKHIL KANNOJIA",phone:"919650314609"},
+  ]},
+  { id:"class7c", name:"Class 7C", students:[
+    {id:"7c_1",name:"MD IBADAT ANSARI",phone:"918340347103"},
+    {id:"7c_2",name:"MOHAMMAD ALI",phone:"919625214540"},
+    {id:"7c_3",name:"MOHD SAKIB",phone:"919718755965"},
+    {id:"7c_4",name:"MOHAMMAD UBAID",phone:"919717979485"},
+    {id:"7c_5",name:"MOHD YUSUF",phone:"919540201554"},
+    {id:"7c_6",name:"MOHD RAFAI",phone:"919718148618"},
+    {id:"7c_7",name:"MOHD ZUNAID",phone:"919650488949"},
+    {id:"7c_8",name:"UZAIF",phone:"919911535681"},
+    {id:"7c_9",name:"MD IMRAN",phone:"919555883237"},
+    {id:"7c_10",name:"MOHD UMAR",phone:"919313620528"},
+    {id:"7c_11",name:"MOHD ARIF",phone:"918882215109"},
+    {id:"7c_12",name:"MOHD ARHAAN",phone:"919891711641"},
+    {id:"7c_13",name:"MD WASIF",phone:"919560964112"},
+    {id:"7c_14",name:"ABDUL ARHAN",phone:"919999053498"},
+    {id:"7c_15",name:"ABDUL BURHAN",phone:"918377940972"},
+    {id:"7c_16",name:"MOHD AARISH",phone:"919891839236"},
+    {id:"7c_17",name:"HUZAIFA",phone:"919555178182"},
+    {id:"7c_18",name:"ARSHAD",phone:"919310058482"},
+    {id:"7c_19",name:"MOHD AAHIL",phone:"919718750114"},
+    {id:"7c_20",name:"ARISH ALVI",phone:"919911406118"},
+    {id:"7c_21",name:"MOHD AAKIR",phone:"919931840400"},
+    {id:"7c_22",name:"MOHD AZHAR",phone:"919873133063"},
+    {id:"7c_23",name:"MOHAMMAD KAIF RAIN",phone:"917368922132"},
+    {id:"7c_24",name:"KASHIB",phone:"919643605576"},
+    {id:"7c_25",name:"MD SAHIL",phone:"919289023980"},
+    {id:"7c_26",name:"MOHD ARIS ANSARI",phone:"919990856582"},
+    {id:"7c_27",name:"ARZAAN",phone:"919717682354"},
+    {id:"7c_28",name:"MD SHAHABUDDHIN",phone:"918603465524"},
+    {id:"7c_29",name:"ROSHAN",phone:"917838656211"},
+    {id:"7c_30",name:"MOHAMMAD ABBAS",phone:"917840822453"},
+    {id:"7c_31",name:"SHAJAAN",phone:"918937827215"},
+    {id:"7c_32",name:"MOHAMMAD AMAAN",phone:"917565827748"},
+  ]},
+  { id:"class7d", name:"Class 7D", students:[
+    {id:"7d_1",name:"MOHD AZHAR",phone:"919354235315"},
+    {id:"7d_2",name:"ATIF",phone:"918800698546"},
+    {id:"7d_3",name:"MOHD SHAD",phone:"918178472489"},
+    {id:"7d_4",name:"MOHD FARHAN",phone:"917827753785"},
+    {id:"7d_5",name:"MOHAMMAD ARHAM",phone:"918377961066"},
+    {id:"7d_6",name:"MOHD ARSH",phone:"919312316473"},
+    {id:"7d_7",name:"FAIJAN",phone:"918287052158"},
+    {id:"7d_8",name:"MOHD RIHAN",phone:"917428948745"},
+    {id:"7d_9",name:"MOHD TANVEER ANSARI",phone:"919716223890"},
+    {id:"7d_10",name:"MOHD TALHA",phone:"919250305674"},
+    {id:"7d_11",name:"AYAN",phone:"918810299853"},
+    {id:"7d_12",name:"MOHD FAIZ",phone:"919278488944"},
+    {id:"7d_13",name:"SIFRAN KHAN",phone:"917042312967"},
+    {id:"7d_14",name:"MOHD SAAD ALAM",phone:"917503097424"},
+    {id:"7d_15",name:"MOHD SAAD",phone:"919911639481"},
+    {id:"7d_16",name:"AAFIYAN",phone:"919718816153"},
+    {id:"7d_17",name:"SHAAD ALI",phone:"917827352588"},
+    {id:"7d_18",name:"MOHHAMMAD BILAL",phone:"917610602898"},
+    {id:"7d_19",name:"MD ARMAN",phone:"919540211394"},
+    {id:"7d_20",name:"MOHAMMAD KIYAN",phone:"919911405683"},
+    {id:"7d_21",name:"MOHD ALI",phone:"918700548602"},
+    {id:"7d_22",name:"FARHAN ANSARI",phone:"918512011296"},
+    {id:"7d_23",name:"MOHD UBAIDULLAH",phone:"919990172188"},
+    {id:"7d_24",name:"MOHD AZIM",phone:"919560922903"},
+    {id:"7d_25",name:"MUDASIR",phone:"918750079302"},
+    {id:"7d_26",name:"MOHD SUBHAN",phone:"918595189289"},
+    {id:"7d_27",name:"MOHD AYAN",phone:"919818971161"},
+    {id:"7d_28",name:"ASIQUE",phone:"919199341623"},
+    {id:"7d_29",name:"MOHD HAMMAD",phone:"919355499729"},
+    {id:"7d_30",name:"ASAD ANSARI",phone:"918010020717"},
+    {id:"7d_31",name:"MOHD SAAD",phone:"918178768212"},
+    {id:"7d_32",name:"AATIF SAIFI",phone:"919811621910"},
+    {id:"7d_33",name:"MOHD UMAIR",phone:"918750714086"},
+    {id:"7d_34",name:"MOHD ALIYAN ANSARI",phone:"919911741913"},
+    {id:"7d_35",name:"MOHAMMAD ABUBAKAR",phone:"919082520367"},
+    {id:"7d_36",name:"MOHAMMAD UMAR",phone:"917042293310"},
+    {id:"7d_37",name:"MOHD HAMJA",phone:"917417666830"},
+  ]},
+  { id:"class8a", name:"Class 8A", students:[
+    {id:"8a_1",name:"SUSHANT VERMA",phone:"919211299157"},
+    {id:"8a_2",name:"SAKSHAM PATHAK",phone:"919312109202"},
+    {id:"8a_3",name:"CHIRAG KASHYAP",phone:"919871852193"},
+    {id:"8a_4",name:"ABHAY SINGH",phone:"918929089921"},
+    {id:"8a_5",name:"ABU HAMZA",phone:"919821531873"},
+    {id:"8a_6",name:"ASHISH",phone:"918700491338"},
+    {id:"8a_7",name:"AMAN KUMAR",phone:"918826914486"},
+    {id:"8a_8",name:"DEV",phone:"918395856739"},
+    {id:"8a_9",name:"KRISHNA",phone:"919717800241"},
+    {id:"8a_10",name:"SUMAN KUMAR",phone:"919693159061"},
+    {id:"8a_11",name:"KRISHNA",phone:"919759403722"},
+    {id:"8a_12",name:"KANISHK",phone:"918287411144"},
+    {id:"8a_13",name:"SOHAIB KHAN",phone:"919654107584"},
+    {id:"8a_14",name:"ARJUN",phone:"919654839712"},
+    {id:"8a_15",name:"VIVEK",phone:"918447752080"},
+    {id:"8a_16",name:"RANJIT RAMESH SHARMA",phone:"919175091969"},
+    {id:"8a_17",name:"JATIN KUMAR",phone:"918750612161"},
+    {id:"8a_18",name:"LAKSHAY GUPTA",phone:"917836865261"},
+    {id:"8a_19",name:"ADITYA KUMAR",phone:"919990789412"},
+    {id:"8a_20",name:"SHIVAM",phone:"918383999406"},
+    {id:"8a_21",name:"AMAR",phone:"919318476645"},
+    {id:"8a_22",name:"YASH KUMAR",phone:"919250132176"},
+    {id:"8a_23",name:"AKSHAM",phone:"919953169058"},
+    {id:"8a_24",name:"ANSHUMAN KUMAR",phone:"919871400153"},
+    {id:"8a_25",name:"PRITAM",phone:"919654165632"},
+    {id:"8a_26",name:"PUNEET YADAV",phone:"919013510523"},
+    {id:"8a_27",name:"ISHAAN",phone:"919953846562"},
+    {id:"8a_28",name:"ANSH MEHRA",phone:"917827296541"},
+    {id:"8a_29",name:"MOHIT",phone:"918595584106"},
+    {id:"8a_30",name:"KRISHNA PAHUJA",phone:"918512835494"},
+    {id:"8a_31",name:"PRINCE",phone:"918745044840"},
+    {id:"8a_32",name:"PIYUSH KUMAR",phone:"918178791405"},
+    {id:"8a_33",name:"GAURAV",phone:"918810596534"},
+    {id:"8a_34",name:"AAYUSH",phone:"918287451065"},
+    {id:"8a_35",name:"ASHIK KUMAR",phone:"919890062799"},
+    {id:"8a_36",name:"UMESH",phone:"917289051462"},
+    {id:"8a_37",name:"GAURAV",phone:"919310201923"},
+    {id:"8a_38",name:"ANSHVEER SINGH",phone:"917291077305"},
+    {id:"8a_39",name:"RITIK",phone:"919818029433"},
+    {id:"8a_40",name:"DHRUV KUMAR BHARTI",phone:"919528585897"},
+    {id:"8a_41",name:"ARJUN KUMAR",phone:"918929047716"},
+    {id:"8a_42",name:"PRATHAM GUPTA",phone:"919650662625"},
+  ]},
+  { id:"class8b", name:"Class 8B", students:[
+    {id:"8b_1",name:"ASHU KUMAR",phone:"918860129603"},
+    {id:"8b_2",name:"RISHABH SINGH",phone:"919625770716"},
+    {id:"8b_3",name:"BALKISHN",phone:"918745905064"},
+    {id:"8b_4",name:"KULDEEP KUMAR",phone:"919560738158"},
+    {id:"8b_5",name:"PRAMOD KUMAR",phone:"919560415174"},
+    {id:"8b_6",name:"AJIT KUMAR",phone:"918373961525"},
+    {id:"8b_7",name:"CHETAN",phone:"919711869816"},
+    {id:"8b_8",name:"AMAN KUMAR",phone:"919891714894"},
+    {id:"8b_9",name:"SAURABH KUMAR",phone:"918505810910"},
+    {id:"8b_10",name:"ANURAG",phone:"918527177132"},
+    {id:"8b_11",name:"ANKIT KUMAR",phone:"918860714278"},
+    {id:"8b_12",name:"VISHAL",phone:"919667208858"},
+    {id:"8b_13",name:"AYUSH RAJ",phone:"919990587553"},
+    {id:"8b_14",name:"KANHA",phone:"919899470799"},
+    {id:"8b_15",name:"ANKIT",phone:"919999608972"},
+    {id:"8b_16",name:"SHIVAM",phone:"917289966302"},
+    {id:"8b_17",name:"PIYUS",phone:"919015566588"},
+    {id:"8b_18",name:"SAGAR",phone:"918650096197"},
+    {id:"8b_19",name:"ADITYA",phone:"918447519618"},
+    {id:"8b_20",name:"ANKIT RAJ",phone:"917254063496"},
+    {id:"8b_21",name:"VIVEK KUMAR",phone:"919625765297"},
+    {id:"8b_22",name:"PAWAN KUMAR",phone:"917838643543"},
+    {id:"8b_23",name:"NAVNEET",phone:"918287496458"},
+    {id:"8b_24",name:"DAKSH SINGH",phone:"919560624818"},
+    {id:"8b_25",name:"SONU KUMAR",phone:"919958684530"},
+    {id:"8b_26",name:"AAKASH KUMAR",phone:"919315660312"},
+    {id:"8b_27",name:"SUJAL",phone:"918826167925"},
+    {id:"8b_28",name:"LAKSHY KUMAR KASHYAP",phone:"918127454466"},
+    {id:"8b_29",name:"SAHIL",phone:"919315920573"},
+    {id:"8b_30",name:"SANGAM",phone:"918595580537"},
+    {id:"8b_31",name:"SATYAM",phone:"919210106603"},
+    {id:"8b_32",name:"ANCH",phone:"918368433171"},
+    {id:"8b_33",name:"RAJIT",phone:"919718370479"},
+    {id:"8b_34",name:"ARYAN",phone:"919793396229"},
+    {id:"8b_35",name:"KRISHNA",phone:"919599440107"},
+    {id:"8b_36",name:"SONU",phone:"919315053796"},
+    {id:"8b_37",name:"ANKIT KUMAR",phone:"919311334876"},
+    {id:"8b_38",name:"RISHABH GUPTA",phone:"919911031887"},
+    {id:"8b_39",name:"AYUSH",phone:"919643090810"},
+    {id:"8b_40",name:"AKSHAYA KUMAR",phone:"917321892033"},
+    {id:"8b_41",name:"FARHAN CHAUDHARY",phone:"919193686642"},
+  ]},
+  { id:"class8c", name:"Class 8C", students:[
+    {id:"8c_1",name:"ARSH",phone:"919718654059"},
+    {id:"8c_2",name:"MOHD AYAN",phone:"919911768242"},
+    {id:"8c_3",name:"MOHD AATIF",phone:"919717338711"},
+    {id:"8c_4",name:"MOHD RIYAN ANSARI",phone:"918287422341"},
+    {id:"8c_5",name:"RAHIB",phone:"919953514268"},
+    {id:"8c_6",name:"MOHD TAYYAB",phone:"918860531240"},
+    {id:"8c_7",name:"AYAAN ANSARI",phone:"919350051603"},
+    {id:"8c_8",name:"MOHD ALI",phone:"919871405040"},
+    {id:"8c_9",name:"MOHD ISMAIL",phone:"918076250292"},
+    {id:"8c_10",name:"ASHAD",phone:"919599442413"},
+    {id:"8c_11",name:"MOHD ARHAM",phone:"918307207771"},
+    {id:"8c_12",name:"MOHD SUBHAN",phone:"918745970138"},
+    {id:"8c_13",name:"MD RIYAZ",phone:""},
+    {id:"8c_14",name:"MOHAMMAD ZAID",phone:"919313924513"},
+    {id:"8c_15",name:"MOHD ALISH SAIFI",phone:"918800169271"},
+    {id:"8c_16",name:"MOHD AZAAN",phone:"917928337324"},
+    {id:"8c_17",name:"MUNAZEER",phone:"919958457963"},
+    {id:"8c_18",name:"SADAN",phone:"919555311494"},
+    {id:"8c_19",name:"SAMEER",phone:"917531814008"},
+    {id:"8c_20",name:"AHAD",phone:"919990103755"},
+    {id:"8c_21",name:"MOHD UZAIR",phone:"919311332644"},
+    {id:"8c_22",name:"MOHD AYAAN",phone:"919250363103"},
+    {id:"8c_23",name:"MOHD AZHARUDDIN",phone:"918851097386"},
+    {id:"8c_24",name:"MOHAMED AFFAN",phone:"918860275032"},
+    {id:"8c_25",name:"MOHD SHARIK",phone:"919289134838"},
+    {id:"8c_26",name:"MOHD SAMEER",phone:"918882657233"},
+    {id:"8c_27",name:"MOHD KASIF",phone:"918826149138"},
+    {id:"8c_28",name:"ASAD",phone:"918287816494"},
+    {id:"8c_29",name:"MOHD UMAR",phone:"917467033865"},
+    {id:"8c_30",name:"MOHAMMAD GAZI",phone:"919569728252"},
+    {id:"8c_31",name:"MD SAMIR",phone:"916206117980"},
+    {id:"8c_32",name:"MOHD ARHAM",phone:"917835917687"},
+    {id:"8c_33",name:"SUHEL ALAM",phone:"919289023980"},
+    {id:"8c_34",name:"MD NAJAM UDDIN",phone:"918603465524"},
+    {id:"8c_35",name:"RIHAN",phone:"918368535149"},
+    {id:"8c_36",name:"MO FAIZ",phone:"917065339385"},
+    {id:"8c_37",name:"MOHAMMAD AAKIB",phone:"918527605491"},
+    {id:"8c_38",name:"MOHAMMAD JEESHAN",phone:"916396007959"},
+  ]},
+  { id:"class8d", name:"Class 8D", students:[
+    {id:"8d_1",name:"MOHAMMAD SAIF",phone:"918700296210"},
+    {id:"8d_2",name:"MOHD UBAIS",phone:"919654669198"},
+    {id:"8d_3",name:"MD KADIR",phone:"919911757742"},
+    {id:"8d_4",name:"ISHAN ALAM",phone:"919899518149"},
+    {id:"8d_5",name:"MOHAMMAD SUBHAN",phone:"919311649316"},
+    {id:"8d_6",name:"MOHD UVESH",phone:"919310622178"},
+    {id:"8d_7",name:"RAGIV HUSSAIN",phone:"919315255935"},
+    {id:"8d_8",name:"ABDUL AHAD",phone:"918700035670"},
+    {id:"8d_9",name:"MOHD AHSAN",phone:"917683045427"},
+    {id:"8d_10",name:"VAZID",phone:"918377823237"},
+    {id:"8d_11",name:"MOHD ARSH ANSARI",phone:"919718901252"},
+    {id:"8d_12",name:"MOHD UKASHA ANSARI",phone:"919958768985"},
+    {id:"8d_13",name:"ALTAMASH RAHMANI",phone:"919910024952"},
+    {id:"8d_14",name:"MAAZ KHAN",phone:"918851047860"},
+    {id:"8d_15",name:"MD AMAN AKHTAR",phone:"919319529434"},
+    {id:"8d_16",name:"ALI AHMAD",phone:"918595669641"},
+    {id:"8d_17",name:"MOHAMMAD KASIF",phone:"919582538296"},
+    {id:"8d_18",name:"MOHAMMAD AFFAN",phone:"919268464190"},
+    {id:"8d_19",name:"MOHD RIYAN",phone:"918368255961"},
+    {id:"8d_20",name:"MOHD ZAID",phone:"917836815702"},
+    {id:"8d_21",name:"ATIF ABBASI",phone:"919899728225"},
+    {id:"8d_22",name:"MOHD ARSH",phone:"918077892387"},
+    {id:"8d_23",name:"MOHD SAHVEZ ANSARI",phone:"917055478913"},
+    {id:"8d_24",name:"ABDULLA ANSARI",phone:"919211484153"},
+    {id:"8d_25",name:"MOHAMMAD HAMZA ANSARI",phone:"919250961127"},
+    {id:"8d_26",name:"MOHD RAYYAN",phone:"919711244655"},
+    {id:"8d_27",name:"SYED ALI MURTZA",phone:"917428055897"},
+    {id:"8d_28",name:"SAHDAB ALAM",phone:"918757653645"},
+    {id:"8d_29",name:"ARSH",phone:"919891701066"},
+    {id:"8d_30",name:"MOHD HAMZA",phone:"918799773925"},
+  ]},
+  { id:"class8e", name:"Class 8E", students:[
+    {id:"8e_1",name:"ANESH",phone:"919536136735"},
+    {id:"8e_2",name:"ANGAD",phone:""},
+    {id:"8e_3",name:"ARJUN",phone:"919891718437"},
+    {id:"8e_4",name:"AAYUSH",phone:"919643094519"},
+    {id:"8e_5",name:"BISWAJIT SARKAR",phone:"918076061046"},
+    {id:"8e_6",name:"BABLU",phone:"919953479264"},
+    {id:"8e_7",name:"JITESH",phone:"919953479264"},
+    {id:"8e_8",name:"KUSHAL",phone:"919811879588"},
+    {id:"8e_9",name:"SURAJ",phone:"917275650441"},
+    {id:"8e_10",name:"TAUSEEF AHMED",phone:"919335422323"},
+    {id:"8e_11",name:"AMAR",phone:"919918730335"},
+    {id:"8e_12",name:"ROHIT KUMAR",phone:"917762814245"},
+    {id:"8e_13",name:"ASHMIT KUMAR",phone:"919871817769"},
+    {id:"8e_14",name:"KRISHN KUMAR",phone:"919871817769"},
+    {id:"8e_15",name:"RITIK",phone:"918506949939"},
+    {id:"8e_16",name:"DAKSH KUMAR",phone:"919560678204"},
+    {id:"8e_17",name:"MOHD ARHAM",phone:"919971938697"},
+    {id:"8e_18",name:"KUNAL",phone:"918595820360"},
+    {id:"8e_19",name:"SAURAV RAJAK",phone:"917509443591"},
+    {id:"8e_20",name:"PAWAN KUMAR",phone:"916207303164"},
+    {id:"8e_21",name:"RITESH",phone:"919654422302"},
+    {id:"8e_22",name:"KRISHNA",phone:"919212898457"},
+    {id:"8e_23",name:"SHIVAM KUMAR",phone:"916395446537"},
+    {id:"8e_24",name:"ALOK KUMAR",phone:"917397647835"},
+    {id:"8e_25",name:"HEMAL",phone:"918800680771"},
+    {id:"8e_26",name:"ARYAMAN",phone:"918882271699"},
+  ]},
+  { id:"class9a", name:"Class 9A", students:[
+    {id:"9a_1",name:"VANSH KUMAR",phone:"919355203764"},
+    {id:"9a_2",name:"KUNAL",phone:""},
+    {id:"9a_3",name:"SATYAM GUPTA",phone:"918448718967"},
+    {id:"9a_4",name:"ISHANT SHARMA",phone:"919953201453"},
+    {id:"9a_5",name:"ADITYA",phone:"918929821590"},
+    {id:"9a_6",name:"ASHU",phone:"918826180268"},
+    {id:"9a_7",name:"PRINCE VERMA",phone:"919536806726"},
+    {id:"9a_8",name:"KRISHNA VERMA",phone:"918595865027"},
+    {id:"9a_9",name:"SHIVAM DUBEY",phone:"919891393369"},
+    {id:"9a_10",name:"DILKHUSH KUMAR",phone:"918802476066"},
+    {id:"9a_11",name:"TANMAY BHATIA",phone:"919354188564"},
+    {id:"9a_12",name:"KARAN KUMAR SAHU",phone:""},
+    {id:"9a_13",name:"ANURAJ",phone:"919210262795"},
+    {id:"9a_14",name:"HIMANSHU",phone:"918076915003"},
+    {id:"9a_15",name:"RISHABH PATHAK",phone:"917840868387"},
+    {id:"9a_16",name:"ARUN",phone:"917827649596"},
+    {id:"9a_17",name:"RISHAB",phone:"919289887846"},
+    {id:"9a_18",name:"AYUSH KUMAR",phone:"918527795639"},
+    {id:"9a_19",name:"NITESH",phone:"919718195208"},
+    {id:"9a_20",name:"ANSH",phone:"919540604095"},
+    {id:"9a_21",name:"UTKARSH",phone:"918076578518"},
+    {id:"9a_22",name:"NEERAJ",phone:"919289783392"},
+    {id:"9a_23",name:"HUZEFA KHAN",phone:"919582774019"},
+    {id:"9a_24",name:"HARSHIT",phone:"918745986486"},
+    {id:"9a_25",name:"RAHUL GAUTAM",phone:"918178908567"},
+    {id:"9a_26",name:"SHUBHAM KUKRETI",phone:"919718932623"},
+    {id:"9a_27",name:"ROHAN",phone:"918744033981"},
+    {id:"9a_28",name:"GURPREET SINGH",phone:"918585918712"},
+    {id:"9a_29",name:"NITISH KUMAR",phone:"917289010328"},
+    {id:"9a_30",name:"DEV BAHADUR",phone:"919871406149"},
+    {id:"9a_31",name:"HAMMAD AHMAD",phone:"919045316800"},
+    {id:"9a_32",name:"SHARAT KUMBHAKAR",phone:"919599855626"},
+    {id:"9a_33",name:"VIRAJ SINGH RAJPOOT",phone:"919654582576"},
+    {id:"9a_34",name:"KHUSHANT",phone:"919310463588"},
+    {id:"9a_35",name:"LAKSHAY",phone:"918178009692"},
+    {id:"9a_36",name:"KAVISH",phone:"919069871058"},
+    {id:"9a_37",name:"HARSHIT KUMAR SINGH",phone:"919971227005"},
+    {id:"9a_38",name:"MEHUL",phone:"918700364095"},
+    {id:"9a_39",name:"PREET",phone:"919540237724"},
+    {id:"9a_40",name:"KARAN PRASAD",phone:"918448802349"},
+    {id:"9a_41",name:"AYUSH KUMAR",phone:"919810148581"},
+    {id:"9a_42",name:"PREM KUMAR",phone:"919650102898"},
+    {id:"9a_43",name:"ABHISHEK RAJAK",phone:"918588936975"},
+    {id:"9a_44",name:"RONAK CHAURASIYA",phone:"918527919113"},
+    {id:"9a_45",name:"PIYUSH KUMAR",phone:"919310027942"},
+    {id:"9a_46",name:"MOHD REHMAN",phone:"919639266736"},
+    {id:"9a_47",name:"AYUSH MISHRA",phone:"917390036059"},
+    {id:"9a_48",name:"JIGAR GUPTA",phone:"919702845803"},
+    {id:"9a_49",name:"SHIVAM",phone:"917703876753"},
+    {id:"9a_50",name:"KRISHNA",phone:"918375901301"},
+    {id:"9a_51",name:"KUNAL",phone:"917678432941"},
+    {id:"9a_52",name:"ANMOL SINGH",phone:"918826479625"},
+    {id:"9a_53",name:"VIKAS",phone:"917289051462"},
+    {id:"9a_54",name:"DEVANSH SHARMA",phone:"919897290512"},
+    {id:"9a_55",name:"ARNAV",phone:"918448792860"},
+  ]},
+  { id:"class9b", name:"Class 9B", students:[
+    {id:"9b_1",name:"NEERAJ KUMAR PASWAN",phone:""},
+    {id:"9b_2",name:"SUMIT",phone:"919899019410"},
+    {id:"9b_3",name:"MAYANK KAPOOR",phone:"919211588230"},
+    {id:"9b_4",name:"ROHIT",phone:"918076730225"},
+    {id:"9b_5",name:"MOHIT",phone:"917217623587"},
+    {id:"9b_6",name:"SUNNY",phone:""},
+    {id:"9b_7",name:"RAJ",phone:"919873181430"},
+    {id:"9b_8",name:"VIVEK KUMAR",phone:""},
+    {id:"9b_9",name:"ANAND CHAUHAN",phone:""},
+    {id:"9b_10",name:"SUNIL",phone:""},
+    {id:"9b_11",name:"SUMIT KUMAR CHAUHAN",phone:""},
+    {id:"9b_12",name:"VICKY KUMAR",phone:"918860714278"},
+    {id:"9b_13",name:"HIMANSHU SHARMA",phone:"919773967590"},
+    {id:"9b_14",name:"SHIVAM",phone:"917042863121"},
+    {id:"9b_15",name:"KRISHNA",phone:"918447578552"},
+    {id:"9b_16",name:"VANSH SAXENA",phone:"919818378285"},
+    {id:"9b_17",name:"SAHIL",phone:"919999222615"},
+    {id:"9b_18",name:"VIKRAM",phone:"919319267745"},
+    {id:"9b_19",name:"ANKUSH KUMAR",phone:"919310244794"},
+    {id:"9b_20",name:"TARUN",phone:"917827229718"},
+    {id:"9b_21",name:"AMIT KUMAR",phone:"919673387018"},
+    {id:"9b_22",name:"ROHAN",phone:"919911029838"},
+    {id:"9b_23",name:"SHIWA",phone:"918130170813"},
+    {id:"9b_24",name:"VANSH VAID",phone:"918376954100"},
+    {id:"9b_25",name:"RAVI",phone:"918810588148"},
+    {id:"9b_26",name:"SAGAR",phone:""},
+    {id:"9b_27",name:"GULSHAN KUMAR",phone:"918810372440"},
+    {id:"9b_28",name:"ALOK CHAURASIYA",phone:"916261841699"},
+    {id:"9b_29",name:"DHARMENDRA AHIRWAR",phone:"918810387364"},
+    {id:"9b_30",name:"KARAN KUMAR",phone:"919693509034"},
+    {id:"9b_31",name:"SAMEER",phone:""},
+    {id:"9b_32",name:"PIYUSH KUMAR",phone:"919990762248"},
+    {id:"9b_33",name:"AVDESH",phone:"919627173192"},
+    {id:"9b_34",name:"SAKSHAM WADHWA",phone:"919583910152"},
+    {id:"9b_35",name:"GRIK KASHYAP",phone:""},
+    {id:"9b_36",name:"AMANPREET SINGH",phone:"916300303493"},
+    {id:"9b_37",name:"AKASH KUMAR",phone:"918448527732"},
+    {id:"9b_38",name:"GAVANSH",phone:"919354141734"},
+    {id:"9b_39",name:"NITIN CHAUHAN",phone:"919870577074"},
+    {id:"9b_40",name:"AADARSH KUMAR",phone:"918447813093"},
+    {id:"9b_41",name:"AYUSH KUMAR",phone:"919971795515"},
+    {id:"9b_42",name:"AMAR KUMAR",phone:"919294971660"},
+    {id:"9b_43",name:"SAUBHAKHAR",phone:"918860261208"},
+    {id:"9b_44",name:"NITIN",phone:"917065198266"},
+    {id:"9b_45",name:"VANSH SURI",phone:"918882703114"},
+  ]},
+  { id:"class9c", name:"Class 9C", students:[
+    {id:"9c_1",name:"MD ADNAN ANSARI",phone:"919650466381"},
+    {id:"9c_2",name:"MOHD KASIF MUNEER",phone:"919634362872"},
+    {id:"9c_3",name:"MOHD RAYYAN",phone:"919821710690"},
+    {id:"9c_4",name:"MOHD AMIR",phone:"919871450408"},
+    {id:"9c_5",name:"ABDUL QADIR AZEEM",phone:"919871013521"},
+    {id:"9c_6",name:"ALTAMASH",phone:""},
+    {id:"9c_7",name:"IBRAHIM",phone:""},
+    {id:"9c_8",name:"TAVREZ ALAM",phone:""},
+    {id:"9c_9",name:"ARSHAD ALI",phone:""},
+    {id:"9c_10",name:"MOHD ARISH",phone:""},
+    {id:"9c_11",name:"SHAHNAWAJ",phone:"919718969047"},
+    {id:"9c_12",name:"UZEB",phone:""},
+    {id:"9c_13",name:"CHAND BABU",phone:"918287214381"},
+    {id:"9c_14",name:"MOHD ARAFAT ANSARI",phone:""},
+    {id:"9c_15",name:"ABDUL REHMAN",phone:"918851886759"},
+    {id:"9c_16",name:"NOOR HASAN",phone:""},
+    {id:"9c_17",name:"MOHD SHAKEEB",phone:"919718341013"},
+    {id:"9c_18",name:"NABEEL",phone:"918505913936"},
+    {id:"9c_19",name:"SHAHBAZ KHAN",phone:"919717878830"},
+    {id:"9c_20",name:"AQIB",phone:""},
+    {id:"9c_21",name:"MOHAMMAD JULKARNAIN",phone:"918766231022"},
+    {id:"9c_22",name:"MOHAMMAD NAJRAIN",phone:"918766231022"},
+    {id:"9c_23",name:"NOMAN",phone:""},
+    {id:"9c_24",name:"JUNAID",phone:"919910784341"},
+    {id:"9c_25",name:"MOHD HUSSAIN",phone:""},
+    {id:"9c_26",name:"MOHD AFFAN",phone:""},
+    {id:"9c_27",name:"MOHD FAIZ",phone:""},
+    {id:"9c_28",name:"AYAN",phone:""},
+    {id:"9c_29",name:"MOHD CHAND",phone:"918447943907"},
+    {id:"9c_30",name:"MOHD ALFAIZ",phone:"916397303549"},
+    {id:"9c_31",name:"MOHD ZISHAAN",phone:"919818312356"},
+    {id:"9c_32",name:"AYAN",phone:"919891754432"},
+    {id:"9c_33",name:"ABDUL QADIR",phone:"918448238462"},
+    {id:"9c_34",name:"SHARIQ",phone:"917835992087"},
+    {id:"9c_35",name:"MOHD HASAN SALMANI",phone:"919250612596"},
+    {id:"9c_36",name:"MD KAISH",phone:"918178047455"},
+    {id:"9c_37",name:"MOHAMMAD TANBIR",phone:"918287852478"},
+    {id:"9c_38",name:"UBAID",phone:"917042823359"},
+    {id:"9c_39",name:"SHAHZAIB",phone:"919355472717"},
+    {id:"9c_40",name:"MOHD AFFAN",phone:"917042823359"},
+    {id:"9c_41",name:"SUBHAN",phone:"919634453788"},
+    {id:"9c_42",name:"MOHD ATIF",phone:"918076934938"},
+    {id:"9c_43",name:"MOHD ARHAM MUQADDAS",phone:"919910084904"},
+    {id:"9c_44",name:"AHMAD RAZA",phone:"919335422323"},
+    {id:"9c_45",name:"ASRAFUL MIAN",phone:"917065624661"},
+    {id:"9c_46",name:"MOHD UBAIS",phone:"919927068401"},
+    {id:"9c_47",name:"SHEK AMAAN",phone:"919654651378"},
+    {id:"9c_48",name:"MOHD SHARIM",phone:"918958911723"},
+    {id:"9c_49",name:"SAAD SAIFI",phone:"919899677404"},
+    {id:"9c_50",name:"MOHD ARSH",phone:"918130327842"},
+    {id:"9c_51",name:"HURRERA",phone:"917078555423"},
+    {id:"9c_52",name:"MOHD SHAHNAWAZ",phone:"919810884480"},
+    {id:"9c_53",name:"MOHD DILSAD",phone:"919905052990"},
+    {id:"9c_54",name:"ARMAAN KHAN",phone:"919999665815"},
+    {id:"9c_55",name:"ABU ASHIQUE ANSARI",phone:"919546650396"},
+    {id:"9c_56",name:"MD SABIR",phone:"919631302730"},
+    {id:"9c_57",name:"MOHD SHANWAZ",phone:"916396044781"},
+  ]},
+  { id:"class9d", name:"Class 9D", students:[
+    {id:"s1",name:"MOHD AMAANULLAH",phone:"919891751833"},
+    {id:"s2",name:"AYAN",phone:"918759031743"},
+    {id:"s3",name:"MOHD SHEKH AADI",phone:"919718419588"},
+    {id:"s4",name:"MOHD SHEKH HAMZA",phone:"919136041114"},
+    {id:"s5",name:"MOHD SHAHIL",phone:"918920825572"},
+    {id:"s6",name:"MOHD ARSH",phone:"919625172028"},
+    {id:"s7",name:"MOHD SHIFAN",phone:"919540841193"},
+    {id:"s8",name:"MOHD ALFAIZ",phone:"919871430212"},
+    {id:"s9",name:"MOHD UMAIR",phone:"919821764370"},
+    {id:"s10",name:"MOHAMMAD TAMJID",phone:"919311961232"},
+    {id:"s11",name:"MOHD AAMIN",phone:"919310379268"},
+    {id:"s12",name:"AYAN (SAMIMUDDIN)",phone:"919911052138"},
+    {id:"s13",name:"AMAN",phone:"919718901252"},
+    {id:"s14",name:"MOHAMMAD ANAS",phone:"919210736175"},
+    {id:"s15",name:"MOHD TARIK ANSARI",phone:"919560415195"},
+    {id:"s16",name:"MOHD ANAS",phone:"919560415195"},
+    {id:"s17",name:"MOHD SOHAIL",phone:"919958220524"},
+    {id:"s18",name:"ATIF MALIK",phone:"917818952729"},
+    {id:"s19",name:"MOHD FARAZ",phone:"919389378415"},
+    {id:"s20",name:"AMAAN",phone:"919268186990"},
+    {id:"s21",name:"ADNAN ALI",phone:"919899348076"},
+    {id:"s22",name:"MOHD AAYAN",phone:"918595551017"},
+    {id:"s23",name:"MOHD ZAID (MUSEEN)",phone:"919268267352"},
+    {id:"s24",name:"MOHD ARHAAN",phone:"919354283749"},
+    {id:"s25",name:"HUZEFA",phone:"919625510386"},
+    {id:"s26",name:"MOHD KAMRAN",phone:"919313559011"},
+    {id:"s27",name:"ABDUL REHMAN",phone:"919953191814"},
+    {id:"s28",name:"MOHD CHAND",phone:"919891786443"},
+    {id:"s29",name:"MOHAMMAD HASSAN RAZA",phone:"919761060289"},
+    {id:"s30",name:"MOHAMMAD ARISH",phone:"919717682354"},
+    {id:"s31",name:"MOHD KAIF KHAN",phone:"919891726106"},
+    {id:"s32",name:"MOHD SAHIL",phone:"919268262662"},
+    {id:"s33",name:"AAMIR",phone:"919355742717"},
+    {id:"s34",name:"MOHD ABEER",phone:"916387495914"},
+    {id:"s35",name:"MOHAMMAD RAHIB",phone:"919711406586"},
+    {id:"s36",name:"MOHD SAMI",phone:"919871843079"},
+    {id:"s37",name:"RAYYAN",phone:"919315924044"},
+    {id:"s38",name:"AARISH ZAHID ANSARI",phone:"919315924044"},
+    {id:"s39",name:"MD TOSIF",phone:"919990440783"},
+    {id:"s40",name:"MAAZ AHMED",phone:"919910172423"},
+    {id:"s41",name:"MOHD AREEB",phone:"919871768075"},
+    {id:"s42",name:"SABIR",phone:"917838138157"},
+    {id:"s43",name:"MOHD ZAID (SHAMSHER)",phone:"919818033144"},
+    {id:"s44",name:"MOHD TAUHEED",phone:"918826294895"},
+    {id:"s45",name:"MOHD ASAD",phone:"917037906200"},
+    {id:"s46",name:"MOHD AFFAN",phone:"919953884512"},
+    {id:"s47",name:"MOHD AYAN",phone:"917827573902"},
+    {id:"s48",name:"ALI HADI",phone:"919540492867"},
+    {id:"s49",name:"ANKUR MALIK",phone:"918006338560"},
+  ]},
+  { id:"class10a", name:"Class 10A", students:[
+    {id:"10a_1",name:"HARSHIT",phone:"919312109202"},
+    {id:"10a_2",name:"LOVISH CHAUDHARI",phone:"919625056144"},
+    {id:"10a_3",name:"RISHABH",phone:"919643852816"},
+    {id:"10a_4",name:"RITESH",phone:""},
+    {id:"10a_5",name:"RAVINDRA KUMAR",phone:"919717304484"},
+    {id:"10a_6",name:"MITHUN",phone:"918750696687"},
+    {id:"10a_7",name:"BADAL",phone:"919717800241"},
+    {id:"10a_8",name:"ANKIT RAJAK",phone:"917065663544"},
+    {id:"10a_9",name:"SHIVAM KUMAR",phone:"919911618192"},
+    {id:"10a_10",name:"ARAV KUMAR",phone:"918595552973"},
+    {id:"10a_11",name:"MAYANK KUMAR GAUTAM",phone:""},
+    {id:"10a_12",name:"ADITYA",phone:"919161114682"},
+    {id:"10a_13",name:"MOHD ARHAM",phone:""},
+    {id:"10a_14",name:"CRISTAL GUPTA",phone:"919911031887"},
+    {id:"10a_15",name:"SIDDHARTH SRIVASTAVA",phone:"919810517754"},
+    {id:"10a_16",name:"ANSH KUMAR VERMA",phone:"919205156106"},
+    {id:"10a_17",name:"RAJNISH KUMAR",phone:"919871870991"},
+    {id:"10a_18",name:"KRISH DEV VARUN",phone:"919355032142"},
+    {id:"10a_19",name:"AKSH MISHRA",phone:""},
+    {id:"10a_20",name:"ROHAN RAY",phone:"919582049476"},
+    {id:"10a_21",name:"HIMANSHU RAJAK",phone:"917999609639"},
+    {id:"10a_22",name:"KRISHNA KUMAR",phone:"918860304672"},
+    {id:"10a_23",name:"VANSH SHARMA",phone:"917042673009"},
+    {id:"10a_24",name:"RAHUL KUMAR",phone:"919560811303"},
+    {id:"10a_25",name:"KRISHAN SINGH",phone:"919871473198"},
+    {id:"10a_26",name:"AARIZ CHAUDHARY",phone:"919910773701"},
+    {id:"10a_27",name:"SUNNY RAHUL",phone:"919911622539"},
+    {id:"10a_28",name:"AMAN RAJAK",phone:"919310250693"},
+    {id:"10a_29",name:"SHAHIL RAJAK",phone:"918506911078"},
+    {id:"10a_30",name:"AAYUSH KUMAR JHA",phone:"917011394222"},
+    {id:"10a_31",name:"DIVYANSHU",phone:"918595895331"},
+    {id:"10a_32",name:"ANKIT",phone:"918585974873"},
+    {id:"10a_33",name:"AYUSH KUMAR",phone:"917982485918"},
+    {id:"10a_34",name:"SHIVAM KUMAR",phone:"919625870267"},
+    {id:"10a_35",name:"RISHI CHOPRA",phone:"919711882596"},
+    {id:"10a_36",name:"OMAV",phone:"919911666690"},
+    {id:"10a_37",name:"RADHEY KUMAR",phone:"919330795421"},
+    {id:"10a_38",name:"MOHD AMAN",phone:"919313981646"},
+    {id:"10a_39",name:"KARAN CHAUHAN",phone:"919458455315"},
+    {id:"10a_40",name:"MOHD ARSH",phone:"919350208048"},
+    {id:"10a_41",name:"MANNAT BHALLA",phone:"919971049803"},
+    {id:"10a_42",name:"PRINCE KUMAR",phone:"916202990441"},
+  ]},
+  { id:"class10b", name:"Class 10B", students:[
+    {id:"10b_1",name:"AMIT KUMAR",phone:"919055794026"},
+    {id:"10b_2",name:"AMAN",phone:"919650827291"},
+    {id:"10b_3",name:"ARJUN",phone:"918506940392"},
+    {id:"10b_4",name:"LAVISH",phone:"919818921673"},
+    {id:"10b_5",name:"TARUN",phone:"918826180226"},
+    {id:"10b_6",name:"SHIVRAJ",phone:"918448535123"},
+    {id:"10b_7",name:"ABHISHEK KUMAR",phone:""},
+    {id:"10b_8",name:"PRINCE KUMAR",phone:""},
+    {id:"10b_9",name:"NIRMAL",phone:""},
+    {id:"10b_10",name:"KRISH KUMAR",phone:""},
+    {id:"10b_11",name:"VINEET",phone:""},
+    {id:"10b_12",name:"ADITYA KUMAR",phone:"917982686550"},
+    {id:"10b_13",name:"GAURAV",phone:"919873387618"},
+    {id:"10b_14",name:"ANURAG KUMAR",phone:"917290879191"},
+    {id:"10b_15",name:"SOURAV",phone:"918368687765"},
+    {id:"10b_16",name:"ABHISHEK KUMAR",phone:""},
+    {id:"10b_17",name:"RAJA KUMAR RAY",phone:""},
+    {id:"10b_18",name:"SHIVAM KUMAR YADAV",phone:""},
+    {id:"10b_19",name:"DEEPAK KUMAR",phone:""},
+    {id:"10b_20",name:"PUNEET",phone:"917827448769"},
+    {id:"10b_21",name:"SHIVAM",phone:"919015566588"},
+    {id:"10b_22",name:"NIRESH",phone:"919759374633"},
+    {id:"10b_23",name:"LAVKUSH KUMAR",phone:"919910763217"},
+    {id:"10b_24",name:"ALOK KUMAR",phone:"919015523701"},
+    {id:"10b_25",name:"DEV",phone:"919953512634"},
+    {id:"10b_26",name:"TANISHK",phone:"919876543210"},
+    {id:"10b_27",name:"RAKESH KUMAR",phone:"918178473394"},
+    {id:"10b_28",name:"VIKAS KUMAR",phone:"919315660312"},
+    {id:"10b_29",name:"DHRUV KUMAR",phone:"918595736034"},
+    {id:"10b_30",name:"RAHUL KUMAR",phone:"919205164929"},
+    {id:"10b_31",name:"KARAN KUMAR",phone:"918377995969"},
+    {id:"10b_32",name:"KARAN KUMAR",phone:"918929047716"},
+    {id:"10b_33",name:"SUNIL CHAUHAN",phone:"918381827819"},
+    {id:"10b_34",name:"SUNIL KUMAR",phone:"918920673824"},
+  ]},
+  { id:"class10c", name:"Class 10C", students:[
+    {id:"10c_1",name:"MOHD TOHID",phone:"919953054364"},
+    {id:"10c_2",name:"MOHD NOOR",phone:"919990813455"},
+    {id:"10c_3",name:"MOHD MUJAHID",phone:"919560893731"},
+    {id:"10c_4",name:"SHANU MANSURI",phone:"919266077686"},
+    {id:"10c_5",name:"ADIL ANSARI",phone:"919990629348"},
+    {id:"10c_6",name:"MOHD IRSHAD",phone:""},
+    {id:"10c_7",name:"ABU WAKAR",phone:"919958441326"},
+    {id:"10c_8",name:"ARHAN",phone:"918287214381"},
+    {id:"10c_9",name:"SHAAN",phone:"919958078227"},
+    {id:"10c_10",name:"MOHD REHAN",phone:"918510931036"},
+    {id:"10c_11",name:"MOHD SAYAAN",phone:"917838758879"},
+    {id:"10c_12",name:"MOHAMMAD KAIF",phone:"918505913939"},
+    {id:"10c_13",name:"ARSHAN",phone:"918375058379"},
+    {id:"10c_14",name:"ASIF",phone:"917669847998"},
+    {id:"10c_15",name:"MOHD SADIQ KHAN",phone:"919953456482"},
+    {id:"10c_16",name:"MOHAMMAD NAWAZISH",phone:"919910634802"},
+    {id:"10c_17",name:"SHEZAN KHAN",phone:"917827209397"},
+    {id:"10c_18",name:"MOHD RUSHAN",phone:"918851954388"},
+    {id:"10c_19",name:"AHTESHAM SHAIKH",phone:"919891839236"},
+    {id:"10c_20",name:"FAIZ KHAN",phone:"919971782755"},
+    {id:"10c_21",name:"MOHD AFSAR",phone:"919528721609"},
+    {id:"10c_22",name:"RAHAT ALI",phone:"919540524852"},
+    {id:"10c_23",name:"MOHD SAKIB",phone:"918527605491"},
+    {id:"10c_24",name:"SUBHAN ANSARI",phone:"919211989628"},
+    {id:"10c_25",name:"MOHD MAAZ",phone:"918954899423"},
+    {id:"10c_26",name:"ABU ZAR",phone:"918130387468"},
+    {id:"10c_27",name:"MOHD SHAD",phone:"918958911723"},
+    {id:"10c_28",name:"MOHAMMAD TUFAIJ",phone:"918252576649"},
+    {id:"10c_29",name:"MOHAMMAD JUNED",phone:"919971381372"},
+    {id:"10c_30",name:"MOHD VILAL",phone:"919310671503"},
+  ]},
+  { id:"class10d", name:"Class 10D", students:[
+    {id:"10d_1",name:"ARHAN KHAN",phone:"919643024286"},
+    {id:"10d_2",name:"ABDUL AARISH",phone:"918130461085"},
+    {id:"10d_3",name:"MUZAKKIR ALAM",phone:"919958389301"},
+    {id:"10d_4",name:"MOHD SAMEER",phone:"919213721682"},
+    {id:"10d_5",name:"MOHAMMAD ALTAMASH",phone:"919990110177"},
+    {id:"10d_6",name:"MOHD ATEEF",phone:"919555111210"},
+    {id:"10d_7",name:"ABDUR REHMAN",phone:"919873714704"},
+    {id:"10d_8",name:"MOHAMMAD SALMAN",phone:"918802571458"},
+    {id:"10d_9",name:"MOHD UMAR",phone:"919555601178"},
+    {id:"10d_10",name:"MOHD AYAAN",phone:"919873016993"},
+    {id:"10d_11",name:"AFRIDI",phone:"918750461205"},
+    {id:"10d_12",name:"MOHD AYAAN MANSOORI",phone:"919891533526"},
+    {id:"10d_13",name:"ARBAZ",phone:"919193955134"},
+    {id:"10d_14",name:"MOHD AAYAN",phone:"918448578522"},
+    {id:"10d_15",name:"ARMAN ANSARI",phone:"919818724970"},
+    {id:"10d_16",name:"MOHD TAYYAB",phone:"919311961232"},
+    {id:"10d_17",name:"MOHD ARMAN",phone:"918742967288"},
+    {id:"10d_18",name:"ANWAR HUSSAIN",phone:"919310780188"},
+    {id:"10d_19",name:"MOHD TALIB",phone:"919211124601"},
+    {id:"10d_20",name:"MOHD UZAIF",phone:"919811762185"},
+    {id:"10d_21",name:"JUNED",phone:"919891257065"},
+    {id:"10d_22",name:"MOHAMMAD UMAR ANSARI",phone:"917982149409"},
+    {id:"10d_23",name:"ABDUL RUHAN",phone:"919999053498"},
+    {id:"10d_24",name:"MOHD ZAID (ZAFAR)",phone:"919871225509"},
+    {id:"10d_25",name:"TAMIM",phone:"919599749760"},
+    {id:"10d_26",name:"MOHD SHOYAB",phone:"917835815093"},
+    {id:"10d_27",name:"MOHD ISHAN",phone:"919990717084"},
+    {id:"10d_28",name:"MOHAMMAD HAMMAD",phone:"917330030786"},
+    {id:"10d_29",name:"MOHD ISLAM SAIFI",phone:"918810469711"},
+    {id:"10d_30",name:"MD AZHAAN",phone:"918587836485"},
+    {id:"10d_31",name:"YAASAR",phone:"917678688701"},
+    {id:"10d_32",name:"MOHD AREEB (VAKIL)",phone:"918766339029"},
+    {id:"10d_33",name:"FARHAN AHMAD",phone:"917678654002"},
+    {id:"10d_34",name:"ABDUL HADI",phone:"919560427786"},
+    {id:"10d_35",name:"ASRAFUL",phone:"919911980738"},
+    {id:"10d_36",name:"ZAYAAN DILNAWAZ ANSARI",phone:"919675074938"},
+    {id:"10d_37",name:"MOHD ZAID (IRFAN)",phone:"918285255378"},
+    {id:"10d_38",name:"SUBHAN ALI",phone:"918076542709"},
+    {id:"10d_39",name:"FARHAN AHMED (AAQIL)",phone:"917018108224"},
+    {id:"10d_40",name:"MUHAMMAD ANAS",phone:"917011388764"},
+  ]},
+];
+
+// Storage
+// ── DATABASE CONFIG ──
+const DB_BACKEND = 'https://discipline-backend1.onrender.com';
+
+// Keep localStorage as backup
+function save(k,v){ try{localStorage.setItem(k,JSON.stringify(v));}catch(e){} }
+function load(k){ try{const v=localStorage.getItem(k);return v?JSON.parse(v):null;}catch(e){return null;} }
+
+// Database functions
+async function saveIncidentDB(record){
+  try{
+    await fetch(`${DB_BACKEND}/save-incident`, {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify(record)
+    });
+  } catch(e){ console.log('DB save error:', e); }
+}
+
+async function loadIncidentsDB(){
+  try{
+    const res = await fetch(`${DB_BACKEND}/get-incidents`);
+    const data = await res.json();
+    if(Array.isArray(data) && data.length > 0){
+      return data.map(r => ({
+        id: r.id, date: r.date, time: r.time,
+        classId: r.class_id, className: r.class_name,
+        studentId: r.student_id, studentName: r.student_name,
+        violationId: r.violation_id, violationLabel: r.violation_label,
+        teacherName: r.teacher_name, teacherUsername: r.teacher_username
+      }));
+    }
+    return null;
+  } catch(e){ return null; }
+}
+
+async function saveUserDB(user){
+  try{
+    await fetch(`${DB_BACKEND}/save-user`, {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ username: user.username, password: user.password, name: user.name, role: user.role })
+    });
+  } catch(e){ console.log('DB user save error:', e); }
+}
+
+async function loadUsersDB(){
+  try{
+    const res = await fetch(`${DB_BACKEND}/get-users`);
+    return await res.json();
+  } catch(e){ return []; }
+}
+
+async function deleteUserDB(id){
+  try{
+    await fetch(`${DB_BACKEND}/delete-user/${id}`, { method:'DELETE' });
+  } catch(e){ console.log('DB delete error:', e); }
+}
+
+// State
+let classes=[], violations=[], selClassId=null, selStudentId=null, selViolationId=null;
+
+// USERS
+const USERS = [
+  { username:'admin', password:'admin123', role:'admin', name:'Principal' },
+  { username:'Ankur Malik', password:'Ankur Malik@0897', role:'teacher', name:'Ankur Malik', class:'9D' },
+  { username:'Amrit Singh', password:'Amrit Singh@0897', role:'teacher', name:'Amrit Singh', class:'9A' },
+  { username:'Munesh Kumar', password:'Munesh Kumar@0897', role:'teacher', name:'Munesh Kumar', class:'10D' },
+  { username:'Ashiqeen', password:'Ashiqeen@0897', role:'teacher', name:'Ashiqeen', class:'10C' },
+];
+let currentUser = null;
+
+async function doLogin(){
+  const u=document.getElementById('login-user').value.trim();
+  const p=document.getElementById('login-pass').value.trim();
+  loadUsers(); const found=[...USERS,...customUsers].find(x=>x.username===u&&x.password===p);
+  if(!found){ document.getElementById('login-error').style.display='block'; return; }
+  currentUser=found;
+  document.getElementById('login-screen').style.display='none';
+  document.getElementById('login-error').style.display='none';
+  const badge=document.getElementById('header-role-badge');
+  badge.innerHTML=`<span class="role-badge role-${found.role}">${found.role==='admin'?'👑 Admin':'👨‍🏫 '+found.name}</span>`;
+  if(found.role==='admin') document.getElementById('nav-admin').style.display='flex';
+  await init();
+  renderMeritClassButtons();
+  renderAchClassButtons();
+}
+
+function doLogout(){
+  currentUser=null;
+  document.getElementById('login-screen').style.display='flex';
+  document.getElementById('login-user').value='';
+  document.getElementById('login-pass').value='';
+  document.getElementById('nav-admin').style.display='none';
+  document.getElementById('header-role-badge').innerHTML='';
+}
+
+// BACKEND
+const BACKEND='https://discipline-backend1.onrender.com';
+
+async function generateAIReport(){
+  const cls=classes.find(c=>c.id===selClassId);
+  const stu=cls?.students.find(s=>s.id===selStudentId);
+  const vio=VIOLATIONS.find(v=>v.id===selViolationId);
+  if(!cls||!stu||!vio) return;
+  const pastViolations=violations.filter(r=>r.studentId===stu.id);
+  const aiBtn=document.getElementById('ai-btn');
+  const aiLoading=document.getElementById('ai-loading');
+  const aiBox=document.getElementById('ai-report-box');
+  const waBtn=document.getElementById('wa-btn-ai');
+  const waDef=document.getElementById('wa-btn-default');
+  aiBtn.disabled=true; aiLoading.style.display='block'; aiBox.style.display='none'; waBtn.style.display='none';
+  try{ await fetch(`${BACKEND}/`); }catch(e){}
+  try{
+    const ctrl=new AbortController();
+    const t=setTimeout(()=>ctrl.abort(),90000);
+    const res=await fetch(`${BACKEND}/generate-report`,{method:'POST',headers:{'Content-Type':'application/json'},signal:ctrl.signal,body:JSON.stringify({studentName:stu.name,grade:cls.name,incidents:[{violation:vio.label,date:new Date().toLocaleDateString('en-IN')}],pastCount:pastViolations.length,school:'GSBV Radhey Shyam Park (1003152)'})});
+    clearTimeout(t);
+    const data=await res.json();
+    aiBox.textContent=data.report; aiBox.style.display='block'; waBtn.style.display='block'; waDef.style.display='none';
+  }catch(err){
+    aiBox.textContent='❌ AI रिपोर्ट नहीं बन सकी। WhatsApp बटन से भेजें।'; aiBox.style.display='block'; waBtn.style.display='block'; waDef.style.display='none';
+  }finally{ aiBtn.disabled=false; aiLoading.style.display='none'; }
+}
+
+// ADMIN
+function renderAdminDashboard(){
+  renderGuardsList();
+  const today=new Date().toLocaleDateString('en-IN');
+  renderUsersList(); document.getElementById('adm-total').textContent=violations.length;
+  document.getElementById('adm-students').textContent=new Set(violations.map(r=>r.studentId)).size;
+  document.getElementById('adm-today').textContent=violations.filter(r=>r.date===today).length;
+  document.getElementById('adm-teachers').textContent=new Set(violations.filter(r=>r.teacherName).map(r=>r.teacherName)).size;
+  const vC={};
+  violations.forEach(r=>{vC[r.violationLabel]=(vC[r.violationLabel]||0)+1;});
+  const maxV=Math.max(...Object.values(vC),1);
+  const chartEl=document.getElementById('violation-chart');
+  chartEl.innerHTML=Object.keys(vC).length===0?'<div style="color:#475569;font-size:13px">अभी कोई डेटा नहीं</div>':Object.entries(vC).sort((a,b)=>b[1]-a[1]).map(([l,c])=>`<div class="vbar"><div class="vbar-label">${l}</div><div class="vbar-track"><div class="vbar-fill" style="width:${(c/maxV)*100}%"></div></div><div class="vbar-count">${c}</div></div>`).join('');
+  const tC={};
+  violations.forEach(r=>{if(r.teacherName)tC[r.teacherName]=(tC[r.teacherName]||0)+1;});
+  document.getElementById('teacher-activity').innerHTML=Object.keys(tC).length===0?'<div style="color:#475569;font-size:13px">अभी कोई डेटा नहीं</div>':Object.entries(tC).sort((a,b)=>b[1]-a[1]).map(([n,c])=>`<div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid #334155"><div style="font-size:13px;color:#cbd5e1">👨‍🏫 ${n}</div><div style="font-size:13px;color:#60a5fa;font-weight:700">${c} रिपोर्ट</div></div>`).join('');
+  const sC={};
+  violations.forEach(r=>{sC[r.studentId]={name:r.studentName,cls:r.className,count:(sC[r.studentId]?.count||0)+1};});
+  const top=Object.values(sC).sort((a,b)=>b.count-a.count).slice(0,5);
+  document.getElementById('top-students').innerHTML=top.length===0?'<div style="color:#475569;font-size:13px">अभी कोई डेटा नहीं</div>':top.map((s,i)=>`<div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid #334155"><div><div style="font-size:13px;color:#cbd5e1">${i+1}. ${s.name}</div><div style="font-size:11px;color:#64748b">${s.cls}</div></div><div style="font-size:13px;color:#f87171;font-weight:700">${s.count} बार</div></div>`).join('');
+}
+
+function switchTab(name){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('tab-'+name).classList.add('active');
+  document.getElementById('nav-'+name).classList.add('active');
+  if(name==='records'){renderRecords();renderFilterClasses();}
+  if(name==='settings') renderSettings();
+  if(name==='admin') renderAdminDashboard();
+  if(name==='merit'){
+    if(classes.length > 0) renderMeritClassButtons();
+    else setTimeout(renderMeritClassButtons, 500);
+  }
+  if(name==='achievement'){
+    if(classes.length > 0) renderAchClassButtons();
+    else setTimeout(renderAchClassButtons, 500);
+  }
+  if(name==='gatepass'){
+    if(classes.length > 0) renderGPClassButtons();
+    else setTimeout(renderGPClassButtons, 500);
+  }
+}
+
+function renderClassButtons(){
+  document.getElementById('class-buttons').innerHTML=classes.map(c=>`<button class="class-btn${selClassId===c.id?' active':''}" onclick="selectClass('${c.id}')">${c.name}</button>`).join('');
+}
+
+function selectClass(id){ selClassId=id; selStudentId=null; selViolationId=null; renderClassButtons(); renderStep2(); document.getElementById('step3').style.display='none'; document.getElementById('step4').style.display='none'; }
+
+function renderStep2(){
+  const step2=document.getElementById('step2');
+  if(!selClassId){step2.style.display='none';return;}
+  const cls=classes.find(c=>c.id===selClassId);
+  if(!cls){step2.style.display='none';return;}
+  step2.style.display='block';
+  document.getElementById('student-count').textContent=`(${cls.students.length} छात्र)`;
+  const counts=getViolationCounts();
+  const el=document.getElementById('student-buttons');
+  if(cls.students.length===0){el.innerHTML='<div class="empty">इस कक्षा में कोई छात्र नहीं है।</div>';return;}
+  el.innerHTML=cls.students.map(s=>`<button class="student-btn${selStudentId===s.id?' active':''}" onclick="selectStudent('${s.id}')"><span>👤 ${s.name}</span><span style="display:flex;align-items:center;gap:4px">${counts[s.id]>0?`<span class="badge">${counts[s.id]}</span>`:''}<span onclick="event.stopPropagation();showStudentProfile('${s.id}','${cls.id}')" style="font-size:18px;padding:2px 4px;color:#60a5fa;cursor:pointer" title="Profile">ℹ</span></span></button>`).join('');
+}
+
+function selectStudent(id){ selStudentId=id; selViolationId=null; renderStep2(); renderStep3(); document.getElementById('step4').style.display='none'; }
+
+function renderStep3(){
+  const step3=document.getElementById('step3');
+  if(!selStudentId){step3.style.display='none';return;}
+  step3.style.display='block';
+  document.getElementById('violation-buttons').innerHTML=VIOLATIONS.map(v=>{const a=selViolationId===v.id;return`<button class="violation-btn" onclick="selectViolation(${v.id})" style="border-color:${a?v.color:'#334155'};background:${a?v.color+'33':'transparent'};color:${a?'#fff':'#cbd5e1'}">${v.emoji} ${v.label}</button>`;}).join('');
+}
+
+function selectViolation(id){ selViolationId=id; renderStep3(); renderStep4(); }
+
+function renderStep4(){
+  const step4=document.getElementById('step4');
+  if(!selViolationId||!selStudentId){step4.style.display='none';return;}
+  const cls=classes.find(c=>c.id===selClassId);
+  const stu=cls?.students.find(s=>s.id===selStudentId);
+  const vio=VIOLATIONS.find(v=>v.id===selViolationId);
+  if(!cls||!stu||!vio){step4.style.display='none';return;}
+  step4.style.display='block';
+  document.getElementById('summary').innerHTML=`👤 <strong style="color:#e2e8f0">${stu.name}</strong><br>🏫 ${cls.name}<br><span style="color:${vio.color}">⚠️ ${vio.label}</span>${!stu.phone?'<div class="warning">⚠️ नंबर नहीं</div>':''}`;
+}
+
+function handleSubmitAI(){
+  const cls=classes.find(c=>c.id===selClassId);
+  const stu=cls?.students.find(s=>s.id===selStudentId);
+  const vio=VIOLATIONS.find(v=>v.id===selViolationId);
+  if(!cls||!stu||!vio) return;
+  const aiReport=document.getElementById('ai-report-box').textContent;
+  const record={id:Date.now().toString(),date:new Date().toLocaleDateString('en-IN'),time:new Date().toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'}),classId:cls.id,className:cls.name,studentId:stu.id,studentName:stu.name,violationId:vio.id,violationLabel:vio.label,teacherName:currentUser?currentUser.name:'Unknown'};
+  violations.unshift(record); save("violations",violations); saveIncidentDB({id:record.id,date:record.date,time:record.time,class_id:record.classId,class_name:record.className,student_id:record.studentId,student_name:record.studentName,violation_id:record.violationId,violation_label:record.violationLabel,teacher_name:record.teacherName,teacher_username:record.teacherUsername});
+  const phone=(stu.phone||'').replace(/\D/g,'');
+  const url=phone?`https://wa.me/${phone}?text=${encodeURIComponent(aiReport)}`:`https://wa.me/?text=${encodeURIComponent(aiReport)}`;
+  window.open(url,'_blank');
+  document.getElementById('report-form').style.display='none';
+  document.getElementById('success-screen').style.display='block';
+  setTimeout(()=>{document.getElementById('success-screen').style.display='none';document.getElementById('report-form').style.display='block';selClassId=null;selStudentId=null;selViolationId=null;renderClassButtons();document.getElementById('step2').style.display='none';document.getElementById('step3').style.display='none';document.getElementById('step4').style.display='none';document.getElementById('ai-report-box').style.display='none';document.getElementById('wa-btn-ai').style.display='none';document.getElementById('wa-btn-default').style.display='block';},2500);
+}
+
+function handleSubmit(){
+  const cls=classes.find(c=>c.id===selClassId);
+  const stu=cls?.students.find(s=>s.id===selStudentId);
+  const vio=VIOLATIONS.find(v=>v.id===selViolationId);
+  if(!cls||!stu||!vio) return;
+  const record={id:Date.now().toString(),date:new Date().toLocaleDateString('en-IN'),time:new Date().toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'}),classId:cls.id,className:cls.name,studentId:stu.id,studentName:stu.name,violationId:vio.id,violationLabel:vio.label,teacherName:currentUser?currentUser.name:'Unknown'};
+  violations.unshift(record); save("violations",violations); saveIncidentDB({id:record.id,date:record.date,time:record.time,class_id:record.classId,class_name:record.className,student_id:record.studentId,student_name:record.studentName,violation_id:record.violationId,violation_label:record.violationLabel,teacher_name:record.teacherName,teacher_username:record.teacherUsername});
+  const phone=(stu.phone||'').replace(/\D/g,'');
+  const url=phone?`https://wa.me/${phone}?text=${encodeURIComponent(vio.msg(stu.name))}`:`https://wa.me/?text=${encodeURIComponent(vio.msg(stu.name))}`;
+  window.open(url,'_blank');
+  document.getElementById('report-form').style.display='none';
+  document.getElementById('success-screen').style.display='block';
+  setTimeout(()=>{document.getElementById('success-screen').style.display='none';document.getElementById('report-form').style.display='block';selClassId=null;selStudentId=null;selViolationId=null;renderClassButtons();document.getElementById('step2').style.display='none';document.getElementById('step3').style.display='none';document.getElementById('step4').style.display='none';document.getElementById('ai-report-box').style.display='none';document.getElementById('wa-btn-ai').style.display='none';document.getElementById('wa-btn-default').style.display='block';},2500);
+}
+
+function getViolationCounts(){ const c={}; violations.forEach(r=>{c[r.studentId]=(c[r.studentId]||0)+1;}); return c; }
+
+function renderFilterClasses(){
+  const sel=document.getElementById('filter-class');
+  sel.innerHTML='<option value="all">सभी कक्षाएं</option>'+classes.map(c=>`<option value="${c.id}">${c.name}</option>`).join('');
+}
+
+function applyFilter(){
+  const fc=document.getElementById('filter-class').value;
+  const fsSel=document.getElementById('filter-student');
+  if(fc!=='all'){const cls=classes.find(c=>c.id===fc);fsSel.innerHTML='<option value="all">सभी छात्र</option>'+(cls?.students||[]).map(s=>`<option value="${s.id}">${s.name}</option>`).join('');fsSel.style.display='block';}
+  else{fsSel.style.display='none';fsSel.value='all';}
+  renderRecords();
+}
+
+function renderRecords(){
+  const fc=document.getElementById('filter-class').value;
+  const fs=document.getElementById('filter-student').value;
+  const ft=document.getElementById('filter-type')?.value||'all';
+
+  const filtered=violations.filter(r=>{
+    const classMatch=(fc==='all'||r.classId===fc);
+    const studentMatch=(fs==='all'||r.studentId===fs);
+    const typeMatch=(ft==='all'||(ft==='violation'&&(!r.type||r.type==='violation'))||(ft==='merit'&&r.type==='merit')||(ft==='achievement'&&r.type==='achievement'));
+    return classMatch&&studentMatch&&typeMatch;
+  });
+
+  const merits=violations.filter(r=>r.type==='merit').length;
+  const achievements=violations.filter(r=>r.type==='achievement').length;
+  const vOnly=violations.filter(r=>!r.type||r.type==='violation').length;
+
+  document.getElementById('stat-total').textContent=vOnly;
+  document.getElementById('stat-students').textContent=new Set(violations.map(r=>r.studentId)).size;
+  if(document.getElementById('stat-merits')) document.getElementById('stat-merits').textContent=merits;
+  if(document.getElementById('stat-achievements')) document.getElementById('stat-achievements').textContent=achievements;
+
+  const el=document.getElementById('records-list');
+  if(filtered.length===0){el.innerHTML='<div style="text-align:center;padding:40px;color:#475569">कोई रिकॉर्ड नहीं मिला</div>';return;}
+
+  el.innerHTML=filtered.map(r=>{
+    let color='#60a5fa', icon='⚠️', label=r.violationLabel;
+    if(r.type==='merit'){ color='#22c55e'; icon='🌟'; }
+    else if(r.type==='achievement'){ color='#f59e0b'; icon='🏆'; }
+    else {
+      const vInfo=VIOLATIONS.find(v=>v.id===r.violationId);
+      if(vInfo){ color=vInfo.color; icon=vInfo.emoji; }
+    }
+    const typeBadge = r.type==='merit'?'<span style="font-size:10px;background:#22c55e22;color:#22c55e;padding:2px 6px;border-radius:4px;margin-left:6px">मेरिट</span>':
+      r.type==='achievement'?'<span style="font-size:10px;background:#f59e0b22;color:#f59e0b;padding:2px 6px;border-radius:4px;margin-left:6px">अचीवमेंट</span>':
+      '<span style="font-size:10px;background:#f8717122;color:#f87171;padding:2px 6px;border-radius:4px;margin-left:6px">उल्लंघन</span>';
+    return `<div class="record-card" style="border-left-color:${color}">
+      <div style="display:flex;justify-content:space-between">
+        <div>
+          <div style="font-weight:700;color:#e2e8f0">👤 ${r.studentName} ${typeBadge}</div>
+          <div style="font-size:12px;color:#64748b">${r.className}</div>
+          ${r.teacherName?`<div style="font-size:11px;color:#475569">👨‍🏫 ${r.teacherName}</div>`:''}
+        </div>
+        <div style="font-size:11px;color:#475569;text-align:right">${r.date}<br>${r.time}</div>
+      </div>
+      <div style="margin-top:6px;font-size:13px;color:${color}">${icon} ${label}</div>
+    </div>`;
+  }).join('');
+}
+
+function renderSettings(){
+  document.getElementById('classes-list').innerHTML=classes.map(c=>`<div class="card"><div style="font-weight:700;color:#60a5fa;margin-bottom:8px">🏫 ${c.name} <span style="color:#475569;font-size:12px;font-weight:400">(${c.students.length})</span></div>${c.students.map(s=>`<div class="student-row"><div><div style="font-size:13px;color:#cbd5e1">👤 ${s.name}</div><div style="font-size:11px;color:#475569">${s.phone||'नंबर नहीं'}</div></div><button class="del-btn" onclick="deleteStudent('${c.id}','${s.id}')">हटाएं</button></div>`).join('')}<div id="add-form-${c.id}" style="display:none;margin-top:10px"><input class="inp" id="sname-${c.id}" placeholder="छात्र का नाम" /><input class="inp" id="sphone-${c.id}" placeholder="WhatsApp नं." style="margin-bottom:8px" /><div style="display:flex;gap:8px"><button onclick="addStudent('${c.id}')" style="flex:1;padding:9px;background:#15803d;color:#fff;border:none;border-radius:8px;font-weight:700;cursor:pointer">सहेजें</button><button onclick="document.getElementById('add-form-${c.id}').style.display='none'" style="padding:9px 14px;background:#334155;color:#94a3b8;border:none;border-radius:8px;cursor:pointer">रद्द</button></div></div><button class="add-student-btn" onclick="document.getElementById('add-form-${c.id}').style.display='block'">+ छात्र जोड़ें</button></div>`).join('');
+}
+
+function addClass(){ const inp=document.getElementById('new-class-input'); const name=inp.value.trim(); if(!name)return; classes.push({id:'cx'+Date.now(),name,students:[]}); save("classes",classes); inp.value=''; renderSettings(); renderClassButtons(); renderFilterClasses(); }
+function addStudent(classId){ const name=document.getElementById('sname-'+classId).value.trim(); const phone=document.getElementById('sphone-'+classId).value.trim(); if(!name)return; const cls=classes.find(c=>c.id===classId); if(!cls)return; cls.students.push({id:'sx'+Date.now(),name,phone}); save("classes",classes); renderSettings(); if(selClassId===classId)renderStep2(); }
+function deleteStudent(classId,studentId){ const cls=classes.find(c=>c.id===classId); if(!cls)return; cls.students=cls.students.filter(s=>s.id!==studentId); save("classes",classes); renderSettings(); if(selClassId===classId)renderStep2(); }
+
+
+// USER MANAGEMENT
+let customUsers = [];
+
+function loadUsers(){
+  const saved = load("customUsers");
+  if(saved) customUsers = saved;
+}
+
+function getAllUsers(){
+  return [...USERS, ...customUsers];
+}
+
+function renderUsersList(){
+  const el = document.getElementById('users-list');
+  const all = getAllUsers();
+  el.innerHTML = all.map((u,i) => `
+    <div style="background:#0f172a;border-radius:8px;padding:10px;margin-bottom:8px;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+        <div>
+          <div style="font-size:13px;font-weight:700;color:#e2e8f0">${u.name || u.username}</div>
+          <div style="font-size:11px;color:#64748b">@${u.username} &bull; <span class="role-badge role-${u.role}">${u.role}</span></div>
+        </div>
+        ${i >= USERS.length ? `<button onclick="deleteUser(${i - USERS.length})" style="background:transparent;color:#f87171;border:1px solid #7f1d1d;border-radius:6px;padding:3px 8px;font-size:11px;cursor:pointer">&#2361;&#2335;&#2366;&#2319;&#2306;</button>` : '<span style="font-size:10px;color:#475569">built-in</span>'}
+      </div>
+      <div style="display:flex;gap:6px">
+        <input id="edit-pass-${i}" class="inp" placeholder="Naya password" style="margin-bottom:0;font-size:12px" />
+        <button onclick="changePassword(${i})" style="padding:6px 10px;background:#15803d;color:#fff;border:none;border-radius:6px;font-size:12px;cursor:pointer;white-space:nowrap">&#2348;&#2342;&#2354;&#2375;&#2306;</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function changePassword(index){
+  const all = getAllUsers();
+  const newPass = document.getElementById(`edit-pass-${index}`).value.trim();
+  if(!newPass){ alert('Password daalo!'); return; }
+  if(index < USERS.length){
+    USERS[index].password = newPass;
+  } else {
+    customUsers[index - USERS.length].password = newPass;
+    save("customUsers", customUsers);
+  }
+  alert('Password badal gaya!');
+  renderUsersList();
+}
+
+function addUser(){
+  const uname = document.getElementById('new-uname').value.trim();
+  const upass = document.getElementById('new-upass').value.trim();
+  const udisplay = document.getElementById('new-uname-display').value.trim();
+  const urole = document.getElementById('new-urole').value;
+  if(!uname || !upass || !udisplay){ alert('Sab fields bharo!'); return; }
+  const all = getAllUsers();
+  if(all.find(u => u.username === uname)){ alert('Yeh username pehle se hai!'); return; }
+  const newUser = { username: uname, password: upass, role: urole, name: udisplay };
+  customUsers.push(newUser);
+  save("customUsers", customUsers);
+  saveUserDB(newUser);
+  document.getElementById('new-uname').value = '';
+  document.getElementById('new-upass').value = '';
+  document.getElementById('new-uname-display').value = '';
+  alert('Naya user ban gaya!');
+  renderUsersList();
+}
+
+function deleteUser(index){
+  if(!confirm('Kya aap sure hain?')) return;
+  customUsers.splice(index, 1);
+  save("customUsers", customUsers);
+  renderUsersList();
+}
+
+
+// ── MERIT CODES ──
+const MERITS = [
+  { id:'M101', label:'नियमित उपस्थिति', emoji:'⏰', color:'#22c55e',
+    msg: n => `⏰ *विषय: समयबद्धता एवं नियमित उपस्थिति की सराहना।*
+
+प्रशंसा पत्र: आपका पुत्र *${n}* विद्यालय में समय की पाबंदी और निरंतर उपस्थिति का श्रेष्ठ उदाहरण प्रस्तुत कर रहे हैं। शिक्षा के प्रति उनकी यह गंभीरता उनके उज्जवल भविष्य का संकेत है। इस निरंतरता को बनाए रखने के लिए आपका सहयोग सराहनीय है। बधाई!
+
+— अनुशासन विभाग, GSBV Radhey Shyam Park` },
+  { id:'M201', label:'अनुशासित व्यवहार', emoji:'🛡️', color:'#22c55e',
+    msg: n => `🛡️ *विषय: आदर्श अनुशासन एवं अनुकरणीय व्यवहार के संबंध में सूचना।*
+
+विशेष सूचना: आज विद्यालय में आपके पुत्र *${n}* का व्यवहार अत्यंत अनुशासित और मर्यादित पाया गया। उन्होंने विद्यालय के सभी नियमों का पालन करते हुए अन्य छात्रों के लिए एक "आदर्श छात्र" का उदाहरण पेश किया है। हमें आपके संस्कार और छात्र के आचरण पर गर्व है।
+
+— अनुशासन विभाग, GSBV Radhey Shyam Park` },
+  { id:'M301', label:'शैक्षणिक उत्कृष्टता', emoji:'🌟', color:'#22c55e',
+    msg: n => `🌟 *विषय: शैक्षणिक उत्कृष्टता एवं असाधारण प्रदर्शन के संबंध में सूचना।*
+
+अत्यंत हर्ष का विषय है: आज विद्यालय की शैक्षणिक गतिविधियों में आपके पुत्र *${n}* ने जटिल समस्याओं को अत्यंत कुशलता से हल कर अपनी प्रतिभा का परिचय दिया है। हमें विश्वास है कि वे भविष्य में विद्यालय और आपका नाम रोशन करेंगे।
+
+— अनुशासन विभाग, GSBV Radhey Shyam Park` },
+  { id:'M401', label:'सहायता और सेवा', emoji:'🤝', color:'#22c55e',
+    msg: n => `🤝 *विषय: मानवीय मूल्यों एवं सहयोग की भावना के संबंध में सूचना।*
+
+सराहनीय कार्य: आज विद्यालय परिसर में आपके पुत्र *${n}* ने अन्य सहपाठियों/अध्यापकों की निःस्वार्थ सहायता कर अपनी "सेवा भावना" का परिचय दिया है। उनके इस नेक व्यवहार की विद्यालय सराहना करता है।
+
+— अनुशासन विभाग, GSBV Radhey Shyam Park` },
+  { id:'M501', label:'स्वच्छता और व्यवस्था', emoji:'🌿', color:'#22c55e',
+    msg: n => `🌿 *विषय: स्वच्छता अभियान एवं पर्यावरण के प्रति जागरूकता।*
+
+विशेष प्रशंसा: आज विद्यालय को स्वच्छ और व्यवस्थित रखने में आपके पुत्र *${n}* का योगदान अत्यंत सराहनीय रहा। उनके इस नागरिक बोध की हम प्रशंसा करते हैं।
+
+— अनुशासन विभाग, GSBV Radhey Shyam Park` },
+  { id:'M601', label:'नेतृत्व क्षमता', emoji:'🚩', color:'#22c55e',
+    msg: n => `🚩 *विषय: नेतृत्व क्षमता (Leadership Quality) की विशेष पहचान।*
+
+महत्वपूर्ण सूचना: आज विद्यालय की गतिविधियों में आपके पुत्र *${n}* ने उत्कृष्ट नेतृत्व क्षमता का प्रदर्शन किया। उनमें एक भविष्य के सफल नायक के गुण स्पष्ट दिखाई देते हैं।
+
+— अनुशासन विभाग, GSBV Radhey Shyam Park` },
+];
+
+// ── ACHIEVEMENT CODES ──
+const ACHIEVEMENTS = [
+  { id:'SCH_01', label:'विद्यालय स्तर', emoji:'🌟', color:'#f59e0b',
+    msg: n => `🌟 *राजकीय सर्वोदय बाल विद्यालय, राधेश्याम पार्क*
+
+*विषय: विद्यालय स्तरीय प्रतियोगिता में उत्कृष्ट प्रदर्शन।*
+
+अत्यंत हर्ष के साथ सूचित किया जाता है कि आज विद्यालय स्तर पर आयोजित प्रतियोगिता में आपके पुत्र *${n}* ने अपनी प्रतिभा का उत्कृष्ट प्रदर्शन किया है। विद्यालय प्रशासन उनकी इस उपलब्धि की सराहना करता है।
+
+— प्रधानाचार्य, GSBV RS Park` },
+  { id:'ZON_02', label:'जोन स्तर', emoji:'🎖️', color:'#f59e0b',
+    msg: n => `🎖️ *राजकीय सर्वोदय बाल विद्यालय, राधेश्याम पार्क*
+
+*विषय: जोन स्तरीय प्रतियोगिता में विजय एवं गौरव।*
+
+बधाई हो! आपके पुत्र *${n}* ने आज जोन स्तर पर आयोजित प्रतियोगिता में विद्यालय का प्रतिनिधित्व करते हुए सफलता प्राप्त की है। इस सफलता के लिए आपको और छात्र को हार्दिक शुभकामनाएं।
+
+— प्रधानाचार्य, GSBV RS Park` },
+  { id:'DIS_03', label:'जिला/जनपद स्तर', emoji:'🏆', color:'#f59e0b',
+    msg: n => `🏆 *राजकीय सर्वोदय बाल विद्यालय, राधेश्याम पार्क*
+
+*विषय: जनपद स्तर पर ऐतिहासिक जीत।*
+
+अत्यंत महत्वपूर्ण सूचना: आज जनपद स्तर पर आयोजित प्रतियोगिता में आपके पुत्र *${n}* ने GSBV RS Park का नाम रोशन करते हुए उच्च स्थान प्राप्त किया है। यह पूरे क्षेत्र और विद्यालय परिवार के लिए गर्व का क्षण है।
+
+— प्रधानाचार्य, GSBV RS Park` },
+  { id:'STA_04', label:'राज्य स्तर', emoji:'🏛️', color:'#f59e0b',
+    msg: n => `🏛️ *राजकीय सर्वोदय बाल विद्यालय, राधेश्याम पार्क*
+
+*विषय: राज्य स्तर पर अद्वितीय सफलता।*
+
+अत्यंत गौरव का विषय: हमें यह बताते हुए गर्व है कि आपके पुत्र *${n}* ने राज्य स्तर पर आयोजित प्रतियोगिता में असाधारण सफलता प्राप्त कर GSBV RS Park को गौरवान्वित किया है। इस ऐतिहासिक सफलता पर विद्यालय परिवार की ओर से आपको और छात्र को हार्दिक बधाई।
+
+— प्रधानाचार्य, GSBV RS Park` },
+];
+
+// Merit state
+let selMeritClassId=null, selMeritStudentId=null, selMeritId=null;
+let selAchClassId=null, selAchStudentId=null, selAchId=null;
+
+// ── MERIT FUNCTIONS ──
+function renderMeritClassButtons(){
+  document.getElementById('merit-class-buttons').innerHTML = classes.map(c =>
+    `<button class="class-btn${selMeritClassId===c.id?' active':''}" onclick="selectMeritClass('${c.id}')">${c.name}</button>`
+  ).join('');
+}
+
+function selectMeritClass(id){
+  selMeritClassId=id; selMeritStudentId=null; selMeritId=null;
+  renderMeritClassButtons();
+  renderMeritStep2();
+  document.getElementById('merit-step3').style.display='none';
+  document.getElementById('merit-step4').style.display='none';
+}
+
+function renderMeritStep2(){
+  const step2=document.getElementById('merit-step2');
+  if(!selMeritClassId){step2.style.display='none';return;}
+  const cls=classes.find(c=>c.id===selMeritClassId);
+  step2.style.display='block';
+  step2.querySelector('.step-label').textContent = `STEP 2 — छात्र चुनें (${cls.students.length} छात्र)`;
+  document.getElementById('merit-student-buttons').innerHTML = cls.students.map(s =>
+    `<button class="student-btn${selMeritStudentId===s.id?' active':''}" onclick="selectMeritStudent('${s.id}')">
+      <span>👤 ${s.name}</span>
+    </button>`
+  ).join('');
+}
+
+function selectMeritStudent(id){
+  selMeritStudentId=id;
+  renderMeritStep2();
+  renderMeritStep3();
+  document.getElementById('merit-step4').style.display='none';
+}
+
+function renderMeritStep3(){
+  const step3=document.getElementById('merit-step3');
+  if(!selMeritStudentId){step3.style.display='none';return;}
+  step3.style.display='block';
+  document.getElementById('merit-buttons').innerHTML = MERITS.map(m => {
+    const active=selMeritId===m.id;
+    return `<button class="merit-btn${active?' active':''}" onclick="selectMerit('${m.id}')"
+      style="border-color:${active?m.color:'#334155'};background:${active?m.color+'33':'transparent'}">
+      ${m.emoji} ${m.label} <span style="font-size:11px;color:#64748b">(${m.id})</span>
+    </button>`;
+  }).join('');
+}
+
+function selectMerit(id){
+  selMeritId=id;
+  renderMeritStep3();
+  renderMeritStep4();
+}
+
+function renderMeritStep4(){
+  const step4=document.getElementById('merit-step4');
+  if(!selMeritId||!selMeritStudentId){step4.style.display='none';return;}
+  const cls=classes.find(c=>c.id===selMeritClassId);
+  const stu=cls?.students.find(s=>s.id===selMeritStudentId);
+  const merit=MERITS.find(m=>m.id===selMeritId);
+  step4.style.display='block';
+  document.getElementById('merit-summary').innerHTML = `
+    👤 <strong style="color:#e2e8f0">${stu.name}</strong><br>
+    🏫 ${cls.name}<br>
+    <span style="color:#22c55e">${merit.emoji} ${merit.label} (${merit.id})</span>
+  `;
+}
+
+function handleMeritSubmit(){
+  const cls=classes.find(c=>c.id===selMeritClassId);
+  const stu=cls?.students.find(s=>s.id===selMeritStudentId);
+  const merit=MERITS.find(m=>m.id===selMeritId);
+  if(!cls||!stu||!merit) return;
+  const record={
+    id:Date.now().toString(), date:new Date().toLocaleDateString('en-IN'),
+    time:new Date().toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'}),
+    classId:cls.id, className:cls.name, studentId:stu.id, studentName:stu.name,
+    violationId:merit.id, violationLabel:merit.label, type:'merit',
+    teacherName:currentUser?currentUser.name:'Unknown'
+  };
+  violations.unshift(record); save("violations",violations);
+  saveIncidentDB({...record, class_id:cls.id, class_name:cls.name, student_id:stu.id,
+    student_name:stu.name, violation_id:0, violation_label:merit.label,
+    teacher_name:record.teacherName, teacher_username:currentUser?.username||''});
+  const phone=(stu.phone||'').replace(/\D/g,'');
+  const url=phone?`https://wa.me/${phone}?text=${encodeURIComponent(merit.msg(stu.name))}`:`https://wa.me/?text=${encodeURIComponent(merit.msg(stu.name))}`;
+  window.open(url,'_blank');
+  document.getElementById('merit-form').style.display='none';
+  document.getElementById('merit-success').style.display='block';
+  setTimeout(()=>{
+    document.getElementById('merit-success').style.display='none';
+    document.getElementById('merit-form').style.display='block';
+    selMeritClassId=null;selMeritStudentId=null;selMeritId=null;
+    renderMeritClassButtons();
+    document.getElementById('merit-step2').style.display='none';
+    document.getElementById('merit-step3').style.display='none';
+    document.getElementById('merit-step4').style.display='none';
+  },2500);
+}
+
+// ── ACHIEVEMENT FUNCTIONS ──
+function renderAchClassButtons(){
+  document.getElementById('ach-class-buttons').innerHTML = classes.map(c =>
+    `<button class="class-btn${selAchClassId===c.id?' active':''}" onclick="selectAchClass('${c.id}')">${c.name}</button>`
+  ).join('');
+}
+
+function selectAchClass(id){
+  selAchClassId=id; selAchStudentId=null; selAchId=null;
+  renderAchClassButtons();
+  renderAchStep2();
+  document.getElementById('ach-step3').style.display='none';
+  document.getElementById('ach-step4').style.display='none';
+}
+
+function renderAchStep2(){
+  const step2=document.getElementById('ach-step2');
+  if(!selAchClassId){step2.style.display='none';return;}
+  const cls=classes.find(c=>c.id===selAchClassId);
+  step2.style.display='block';
+  step2.querySelector('.step-label').textContent = `STEP 2 — छात्र चुनें (${cls.students.length} छात्र)`;
+  document.getElementById('ach-student-buttons').innerHTML = cls.students.map(s =>
+    `<button class="student-btn${selAchStudentId===s.id?' active':''}" onclick="selectAchStudent('${s.id}')">
+      <span>👤 ${s.name}</span>
+    </button>`
+  ).join('');
+}
+
+function selectAchStudent(id){
+  selAchStudentId=id;
+  renderAchStep2();
+  renderAchStep3();
+  document.getElementById('ach-step4').style.display='none';
+}
+
+function renderAchStep3(){
+  const step3=document.getElementById('ach-step3');
+  if(!selAchStudentId){step3.style.display='none';return;}
+  step3.style.display='block';
+  document.getElementById('ach-buttons').innerHTML = ACHIEVEMENTS.map(a => {
+    const active=selAchId===a.id;
+    return `<button class="achievement-btn${active?' active':''}" onclick="selectAch('${a.id}')"
+      style="border-color:${active?a.color:'#334155'};background:${active?a.color+'33':'transparent'}">
+      ${a.emoji} ${a.label} <span style="font-size:11px;color:#64748b">(${a.id})</span>
+    </button>`;
+  }).join('');
+}
+
+function selectAch(id){
+  selAchId=id;
+  renderAchStep3();
+  renderAchStep4();
+}
+
+function renderAchStep4(){
+  const step4=document.getElementById('ach-step4');
+  if(!selAchId||!selAchStudentId){step4.style.display='none';return;}
+  const cls=classes.find(c=>c.id===selAchClassId);
+  const stu=cls?.students.find(s=>s.id===selAchStudentId);
+  const ach=ACHIEVEMENTS.find(a=>a.id===selAchId);
+  step4.style.display='block';
+  document.getElementById('ach-summary').innerHTML = `
+    👤 <strong style="color:#e2e8f0">${stu.name}</strong><br>
+    🏫 ${cls.name}<br>
+    <span style="color:#f59e0b">${ach.emoji} ${ach.label} (${ach.id})</span>
+  `;
+}
+
+function handleAchievementSubmit(){
+  const cls=classes.find(c=>c.id===selAchClassId);
+  const stu=cls?.students.find(s=>s.id===selAchStudentId);
+  const ach=ACHIEVEMENTS.find(a=>a.id===selAchId);
+  if(!cls||!stu||!ach) return;
+  const record={
+    id:Date.now().toString(), date:new Date().toLocaleDateString('en-IN'),
+    time:new Date().toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'}),
+    classId:cls.id, className:cls.name, studentId:stu.id, studentName:stu.name,
+    violationId:ach.id, violationLabel:ach.label, type:'achievement',
+    teacherName:currentUser?currentUser.name:'Unknown'
+  };
+  violations.unshift(record); save("violations",violations);
+  saveIncidentDB({...record, class_id:cls.id, class_name:cls.name, student_id:stu.id,
+    student_name:stu.name, violation_id:0, violation_label:ach.label,
+    teacher_name:record.teacherName, teacher_username:currentUser?.username||''});
+  const phone=(stu.phone||'').replace(/\D/g,'');
+  const url=phone?`https://wa.me/${phone}?text=${encodeURIComponent(ach.msg(stu.name))}`:`https://wa.me/?text=${encodeURIComponent(ach.msg(stu.name))}`;
+  window.open(url,'_blank');
+  document.getElementById('achievement-form').style.display='none';
+  document.getElementById('achievement-success').style.display='block';
+  setTimeout(()=>{
+    document.getElementById('achievement-success').style.display='none';
+    document.getElementById('achievement-form').style.display='block';
+    selAchClassId=null;selAchStudentId=null;selAchId=null;
+    renderAchClassButtons();
+    document.getElementById('ach-step2').style.display='none';
+    document.getElementById('ach-step3').style.display='none';
+    document.getElementById('ach-step4').style.display='none';
+  },2500);
+}
+
+// ── STUDENT PROFILE POPUP ──
+function showStudentProfile(studentId, classId){
+  const cls=classes.find(c=>c.id===classId);
+  const stu=cls?.students.find(s=>s.id===studentId);
+  if(!cls||!stu) return;
+
+  const allRecords=violations.filter(r=>r.studentId===studentId);
+  const vCount=allRecords.filter(r=>!r.type||r.type==='violation').length;
+  const mCount=allRecords.filter(r=>r.type==='merit').length;
+  const aCount=allRecords.filter(r=>r.type==='achievement').length;
+
+  const historyHTML=allRecords.slice(0,10).map(r=>{
+    const color = r.type==='merit'?'#22c55e':r.type==='achievement'?'#f59e0b':'#f87171';
+    const icon = r.type==='merit'?'🌟':r.type==='achievement'?'🏆':'⚠️';
+    return `<div class="history-item">
+      <span style="color:${color}">${icon} ${r.violationLabel}</span>
+      <span style="color:#64748b;float:right">${r.date}</span>
+      <div style="font-size:11px;color:#475569">👨‍🏫 ${r.teacherName||''}</div>
+    </div>`;
+  }).join('');
+
+  document.getElementById('popup-content').innerHTML = `
+    <div style="text-align:center;margin-bottom:16px">
+      <div style="font-size:40px">👤</div>
+      <div style="font-size:18px;font-weight:800;color:#e2e8f0;margin-top:8px">${stu.name}</div>
+      <div style="font-size:13px;color:#64748b">${cls.name}</div>
+      ${stu.phone?`<div style="font-size:12px;color:#475569">📱 ${stu.phone}</div>`:''}
+    </div>
+    <div style="display:flex;justify-content:center;gap:8px;margin-bottom:16px">
+      <div class="profile-stat" style="background:#f871711a;border:1px solid #f87171">
+        <div style="font-size:24px;font-weight:800;color:#f87171">${vCount}</div>
+        <div style="font-size:11px;color:#94a3b8">उल्लंघन</div>
+      </div>
+      <div class="profile-stat" style="background:#22c55e1a;border:1px solid #22c55e">
+        <div style="font-size:24px;font-weight:800;color:#22c55e">${mCount}</div>
+        <div style="font-size:11px;color:#94a3b8">मेरिट</div>
+      </div>
+      <div class="profile-stat" style="background:#f59e0b1a;border:1px solid #f59e0b">
+        <div style="font-size:24px;font-weight:800;color:#f59e0b">${aCount}</div>
+        <div style="font-size:11px;color:#94a3b8">अचीवमेंट</div>
+      </div>
+    </div>
+    <div style="font-size:11px;color:#60a5fa;font-weight:700;margin-bottom:8px">📋 हाल की गतिविधि</div>
+    ${historyHTML || '<div style="color:#475569;font-size:13px;text-align:center;padding:20px">कोई रिकॉर्ड नहीं</div>'}
+  `;
+  document.getElementById('student-popup').style.display='flex';
+}
+
+function closeStudentPopup(){
+  document.getElementById('student-popup').style.display='none';
+}
+
+
+// ── GATE PASS ──
+const GP_REASONS = [
+  { id:'R1', label:'Doctor/Medical', emoji:'🏥' },
+  { id:'R2', label:'Family Emergency', emoji:'🏠' },
+  { id:'R3', label:'School Work', emoji:'📋' },
+  { id:'R4', label:'Early Dismissal', emoji:'🚌' },
+  { id:'R5', label:'Other', emoji:'📝' },
+];
+
+let selGPClassId=null, selGPStudentId=null, selGPReasonId=null, selGPGuardId=null;
+let gpCounter = parseInt(localStorage.getItem('gpCounter')||'0');
+
+function getGPId(){
+  const now = new Date();
+  const d = String(now.getDate()).padStart(2,'0');
+  const m = String(now.getMonth()+1).padStart(2,'0');
+  const y = String(now.getFullYear()).slice(2);
+  gpCounter++;
+  localStorage.setItem('gpCounter', gpCounter);
+  const seq = String(gpCounter).padStart(3,'0');
+  return `G${d}${m}${y}${seq}`;
+}
+
+function renderGPClassButtons(){
+  const el = document.getElementById('gp-class-buttons');
+  if(!el) return;
+  el.innerHTML = classes.map(c =>
+    `<button class="class-btn${selGPClassId===c.id?' active':''}" onclick="selectGPClass('${c.id}')">${c.name}</button>`
+  ).join('');
+}
+
+function selectGPClass(id){
+  selGPClassId=id; selGPStudentId=null; selGPReasonId=null; selGPGuardId=null;
+  renderGPClassButtons();
+  renderGPStep2();
+  document.getElementById('gp-step3').style.display='none';
+  document.getElementById('gp-step4').style.display='none';
+  document.getElementById('gp-step5').style.display='none';
+}
+
+function renderGPStep2(){
+  const step2=document.getElementById('gp-step2');
+  if(!selGPClassId){step2.style.display='none';return;}
+  const cls=classes.find(c=>c.id===selGPClassId);
+  step2.style.display='block';
+  step2.querySelector('.step-label').textContent=`STEP 2 — छात्र चुनें (${cls.students.length} छात्र)`;
+  document.getElementById('gp-student-buttons').innerHTML=cls.students.map(s=>
+    `<button class="student-btn${selGPStudentId===s.id?' active':''}" onclick="selectGPStudent('${s.id}')">
+      <span>👤 ${s.name}</span>
+    </button>`
+  ).join('');
+}
+
+function selectGPStudent(id){
+  selGPStudentId=id;
+  renderGPStep2();
+  renderGPStep3();
+  document.getElementById('gp-step4').style.display='none';
+  document.getElementById('gp-step5').style.display='none';
+}
+
+function renderGPStep3(){
+  const step3=document.getElementById('gp-step3');
+  if(!selGPStudentId){step3.style.display='none';return;}
+  step3.style.display='block';
+  document.getElementById('gp-reason-buttons').innerHTML=GP_REASONS.map(r=>{
+    const active=selGPReasonId===r.id;
+    return `<button class="gp-btn${active?' active':''}" onclick="selectGPReason('${r.id}')"
+      style="border-color:${active?'#0ea5e9':'#334155'};background:${active?'#0369a133':'transparent'}">
+      ${r.emoji} ${r.label}
+    </button>`;
+  }).join('');
+}
+
+function selectGPReason(id){
+  selGPReasonId=id;
+  renderGPStep3();
+  renderGPStep4();
+}
+
+function renderGPStep4(){
+  const step4=document.getElementById('gp-step4');
+  const noGuard=document.getElementById('gp-no-guard');
+  if(!selGPReasonId){step4.style.display='none';return;}
+  step4.style.display='block';
+  const guards=getGuards();
+  if(guards.length===0){
+    document.getElementById('gp-guard-buttons').innerHTML='';
+    noGuard.style.display='block';
+    return;
+  }
+  noGuard.style.display='none';
+  document.getElementById('gp-guard-buttons').innerHTML=guards.map(g=>{
+    const active=selGPGuardId===g.id;
+    return `<button class="gp-btn${active?' active':''}" onclick="selectGPGuard('${g.id}')"
+      style="border-color:${active?'#0ea5e9':'#334155'};background:${active?'#0369a133':'transparent'}">
+      💂 ${g.name} — 📱 ${g.phone}
+    </button>`;
+  }).join('');
+}
+
+function selectGPGuard(id){
+  selGPGuardId=id;
+  renderGPStep4();
+  renderGPStep5();
+}
+
+function renderGPStep5(){
+  const step5=document.getElementById('gp-step5');
+  if(!selGPGuardId){step5.style.display='none';return;}
+  const cls=classes.find(c=>c.id===selGPClassId);
+  const stu=cls?.students.find(s=>s.id===selGPStudentId);
+  const reason=GP_REASONS.find(r=>r.id===selGPReasonId);
+  const guard=getGuards().find(g=>g.id===selGPGuardId);
+  step5.style.display='block';
+  const now=new Date();
+  const time=now.toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'});
+  const date=now.toLocaleDateString('en-IN');
+  document.getElementById('gp-summary').innerHTML=`
+    👤 <strong style="color:#e2e8f0">${stu.name}</strong><br>
+    🏫 ${cls.name}<br>
+    ${reason.emoji} ${reason.label}<br>
+    💂 Guard: ${guard.name}<br>
+    🕐 ${time} | 📅 ${date}
+  `;
+}
+
+function handleGPSubmit(){
+  const cls=classes.find(c=>c.id===selGPClassId);
+  const stu=cls?.students.find(s=>s.id===selGPStudentId);
+  const reason=GP_REASONS.find(r=>r.id===selGPReasonId);
+  const guard=getGuards().find(g=>g.id===selGPGuardId);
+  if(!cls||!stu||!reason||!guard) return;
+
+  const gpId=getGPId();
+  const now=new Date();
+  const time=now.toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'});
+  const date=now.toLocaleDateString('en-IN');
+  const teacher=currentUser?currentUser.name:'Teacher';
+
+  // Guard message
+  const guardMsg=`🚩 आधिकारिक सूचना: गेट पास (निकास अनुमति)
+पास संख्या (ID): #[${gpId}]
+छात्र का नाम: ${stu.name}
+कक्षा: ${cls.name}
+निकास समय: ${time}
+कारण: ${reason.label}
+अनुमति प्रदाता: ${teacher}
+निर्देश: सुरक्षा गार्ड कृपया विवरण का मिलान करें और छात्र को विद्यालय परिसर से बाहर जाने की अनुमति दें।
+— प्रशासन, GSBV RS Park`;
+
+  // Parent message
+  const parentMsg=`🚩 महत्वपूर्ण सूचना: विद्यालय निकास (Out-Pass)
+प्रिय अभिभावक,
+सूचित किया जाता है कि आपका पुत्र ${stu.name} आज दिनांक ${date} को समय ${time} पर विद्यालय परिसर से बाहर गया है।
+विवरण:
+🔹 पास संख्या (ID): #${gpId}
+🔹 कारण: ${reason.label}
+🔹 अनुमति प्रदाता: ${teacher}
+सुरक्षा कारणों से यह जानकारी आपको भेजी गई है। यदि यह छात्र आपकी जानकारी के बिना बाहर आया है, तो कृपया तुरंत विद्यालय प्रशासन से संपर्क करें।
+— प्रशासन, GSBV RS Park`;
+
+  // Send to guard
+  const guardPhone=guard.phone.replace(/\D/g,'');
+  window.open(`https://wa.me/${guardPhone}?text=${encodeURIComponent(guardMsg)}`,'_blank');
+
+  // Send to parent after 1 sec
+  setTimeout(()=>{
+    const parentPhone=(stu.phone||'').replace(/\D/g,'');
+    const parentUrl=parentPhone?`https://wa.me/${parentPhone}?text=${encodeURIComponent(parentMsg)}`:`https://wa.me/?text=${encodeURIComponent(parentMsg)}`;
+    window.open(parentUrl,'_blank');
+  },1000);
+
+  // Show success
+  document.getElementById('gp-form').style.display='none';
+  document.getElementById('gp-success').style.display='block';
+  setTimeout(()=>{
+    document.getElementById('gp-success').style.display='none';
+    document.getElementById('gp-form').style.display='block';
+    selGPClassId=null;selGPStudentId=null;selGPReasonId=null;selGPGuardId=null;
+    renderGPClassButtons();
+    ['gp-step2','gp-step3','gp-step4','gp-step5'].forEach(id=>document.getElementById(id).style.display='none');
+  },2500);
+}
+
+// Guard management
+function getGuards(){ return JSON.parse(localStorage.getItem('guards')||'[]'); }
+function saveGuards(g){ localStorage.setItem('guards',JSON.stringify(g)); }
+
+function renderGuardsList(){
+  const el=document.getElementById('guards-list');
+  if(!el) return;
+  const guards=getGuards();
+  if(guards.length===0){
+    el.innerHTML='<div style="color:#475569;font-size:13px">कोई गार्ड नहीं है।</div>';
+    return;
+  }
+  el.innerHTML=guards.map(g=>`
+    <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid #334155">
+      <div>
+        <div style="font-size:13px;color:#e2e8f0">💂 ${g.name}</div>
+        <div style="font-size:11px;color:#64748b">📱 ${g.phone}</div>
+      </div>
+      <button onclick="deleteGuard('${g.id}')" style="background:transparent;color:#f87171;border:1px solid #7f1d1d;border-radius:6px;padding:3px 8px;font-size:11px;cursor:pointer">हटाएं</button>
+    </div>
+  `).join('');
+}
+
+function addGuard(){
+  const name=document.getElementById('guard-name').value.trim();
+  const phone=document.getElementById('guard-phone').value.trim();
+  if(!name||!phone){alert('नाम और नंबर दोनों भरें!');return;}
+  const guards=getGuards();
+  guards.push({id:'g'+Date.now(),name,phone});
+  saveGuards(guards);
+  document.getElementById('guard-name').value='';
+  document.getElementById('guard-phone').value='';
+  renderGuardsList();
+}
+
+function deleteGuard(id){
+  const guards=getGuards().filter(g=>g.id!==id);
+  saveGuards(guards);
+  renderGuardsList();
+}
+
+async function init(){
+  classes = load("classes") || DEFAULT_CLASSES;
+  violations = load("violations") || [];
+  renderClassButtons(); renderFilterClasses(); renderSettings(); renderRecords();
+
+  // Load from database
+  document.getElementById('class-buttons').innerHTML = '<div style="color:#64748b;font-size:13px;padding:10px">Loading...</div>';
+  try {
+    const dbIncidents = await loadIncidentsDB();
+    if(dbIncidents && dbIncidents.length > 0){
+      violations = dbIncidents;
+      save("violations", violations);
+      renderRecords();
+    }
+  } catch(e){}
+  renderClassButtons();
+  renderMeritClassButtons();
+  renderAchClassButtons();
+  renderGPClassButtons();
+}
+</script>
+<script>
+// Unregister old service workers
+if("serviceWorker" in navigator){
+  navigator.serviceWorker.register("/sw.js")
+    .then(() => console.log("SW registered"))
+    .catch(e => console.log("SW error", e));
+}
+</script>
+</body>
+</html>
